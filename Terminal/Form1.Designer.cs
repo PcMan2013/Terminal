@@ -54,7 +54,7 @@
             this.HandshakeNoneRadio = new System.Windows.Forms.RadioButton();
             this.HandshakeRTSRadio = new System.Windows.Forms.RadioButton();
             this.HandshakeGroup = new System.Windows.Forms.GroupBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.TransmitTerminationGroup = new System.Windows.Forms.GroupBox();
             this.TransmitTerminationCrLfRadio = new System.Windows.Forms.RadioButton();
             this.TransmitTerminationLfRadio = new System.Windows.Forms.RadioButton();
             this.TransmitTerminationCrRadio = new System.Windows.Forms.RadioButton();
@@ -63,19 +63,19 @@
             this.SerialPortDtrCheckbox = new System.Windows.Forms.CheckBox();
             this.ReceivedDataTextBox = new System.Windows.Forms.RichTextBox();
             this.ReceivedDataTextBoxContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.ReceivedDataAutoscrollContextitem = new System.Windows.Forms.ToolStripMenuItem();
             this.ReceivedDataClearContextItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ReceivedDataClearOnConnectContextItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ReceivedDataFontContextItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ReceivedDataTimestampContextItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ReceivedDataFontDialog = new System.Windows.Forms.FontDialog();
+            this.ReceivedDataAutoscrollContextitem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ReceivedDataClearOnConnectContextItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ReceivedDataTimestampContextItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ComPortGroup.SuspendLayout();
             this.BaudGroup.SuspendLayout();
             this.DataBitsGroup.SuspendLayout();
             this.ParityGroup.SuspendLayout();
             this.StopBitsGroup.SuspendLayout();
             this.HandshakeGroup.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.TransmitTerminationGroup.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.ReceivedDataTextBoxContextMenu.SuspendLayout();
             this.SuspendLayout();
@@ -109,7 +109,7 @@
             this.ComPortGroup.Controls.Add(this.ComPortDropDown);
             this.ComPortGroup.Controls.Add(this.ComRefreshButton);
             this.ComPortGroup.Location = new System.Drawing.Point(10, 10);
-            this.ComPortGroup.Margin = new System.Windows.Forms.Padding(0);
+            this.ComPortGroup.Margin = new System.Windows.Forms.Padding(5);
             this.ComPortGroup.Name = "ComPortGroup";
             this.ComPortGroup.Padding = new System.Windows.Forms.Padding(0);
             this.ComPortGroup.Size = new System.Drawing.Size(114, 140);
@@ -136,7 +136,7 @@
             this.BaudGroup.Controls.Add(this.Baudrate115200Radio);
             this.BaudGroup.Controls.Add(this.Baudrate19200Radio);
             this.BaudGroup.Controls.Add(this.Baudrate9600Radio);
-            this.BaudGroup.Location = new System.Drawing.Point(129, 10);
+            this.BaudGroup.Location = new System.Drawing.Point(134, 10);
             this.BaudGroup.Margin = new System.Windows.Forms.Padding(5);
             this.BaudGroup.Name = "BaudGroup";
             this.BaudGroup.Padding = new System.Windows.Forms.Padding(0);
@@ -152,6 +152,7 @@
             this.Baudrate57600Radio.Name = "Baudrate57600Radio";
             this.Baudrate57600Radio.Size = new System.Drawing.Size(85, 20);
             this.Baudrate57600Radio.TabIndex = 4;
+            this.Baudrate57600Radio.Tag = "57600";
             this.Baudrate57600Radio.Text = "57600";
             this.Baudrate57600Radio.UseVisualStyleBackColor = true;
             this.Baudrate57600Radio.CheckedChanged += new System.EventHandler(this.BaudrateChanged);
@@ -163,6 +164,7 @@
             this.Baudrate14400Radio.Name = "Baudrate14400Radio";
             this.Baudrate14400Radio.Size = new System.Drawing.Size(85, 20);
             this.Baudrate14400Radio.TabIndex = 3;
+            this.Baudrate14400Radio.Tag = "14400";
             this.Baudrate14400Radio.Text = "14400";
             this.Baudrate14400Radio.UseVisualStyleBackColor = true;
             this.Baudrate14400Radio.CheckedChanged += new System.EventHandler(this.BaudrateChanged);
@@ -176,6 +178,7 @@
             this.Baudrate115200Radio.Size = new System.Drawing.Size(85, 20);
             this.Baudrate115200Radio.TabIndex = 2;
             this.Baudrate115200Radio.TabStop = true;
+            this.Baudrate115200Radio.Tag = "115200";
             this.Baudrate115200Radio.Text = "115200";
             this.Baudrate115200Radio.UseVisualStyleBackColor = true;
             this.Baudrate115200Radio.CheckedChanged += new System.EventHandler(this.BaudrateChanged);
@@ -187,6 +190,7 @@
             this.Baudrate19200Radio.Name = "Baudrate19200Radio";
             this.Baudrate19200Radio.Size = new System.Drawing.Size(85, 20);
             this.Baudrate19200Radio.TabIndex = 1;
+            this.Baudrate19200Radio.Tag = "19200";
             this.Baudrate19200Radio.Text = "19200";
             this.Baudrate19200Radio.UseVisualStyleBackColor = true;
             this.Baudrate19200Radio.CheckedChanged += new System.EventHandler(this.BaudrateChanged);
@@ -198,6 +202,7 @@
             this.Baudrate9600Radio.Name = "Baudrate9600Radio";
             this.Baudrate9600Radio.Size = new System.Drawing.Size(85, 20);
             this.Baudrate9600Radio.TabIndex = 0;
+            this.Baudrate9600Radio.Tag = "9600";
             this.Baudrate9600Radio.Text = "9600";
             this.Baudrate9600Radio.UseVisualStyleBackColor = true;
             this.Baudrate9600Radio.CheckedChanged += new System.EventHandler(this.BaudrateChanged);
@@ -205,11 +210,11 @@
             // DataBitsGroup
             // 
             this.DataBitsGroup.Controls.Add(this.DataBits8Radio);
-            this.DataBitsGroup.Location = new System.Drawing.Point(234, 10);
+            this.DataBitsGroup.Location = new System.Drawing.Point(244, 10);
             this.DataBitsGroup.Margin = new System.Windows.Forms.Padding(5);
             this.DataBitsGroup.Name = "DataBitsGroup";
             this.DataBitsGroup.Padding = new System.Windows.Forms.Padding(0);
-            this.DataBitsGroup.Size = new System.Drawing.Size(80, 140);
+            this.DataBitsGroup.Size = new System.Drawing.Size(94, 140);
             this.DataBitsGroup.TabIndex = 5;
             this.DataBitsGroup.TabStop = false;
             this.DataBitsGroup.Text = "Data Bits";
@@ -223,6 +228,7 @@
             this.DataBits8Radio.Size = new System.Drawing.Size(50, 20);
             this.DataBits8Radio.TabIndex = 0;
             this.DataBits8Radio.TabStop = true;
+            this.DataBits8Radio.Tag = "8";
             this.DataBits8Radio.Text = "8";
             this.DataBits8Radio.UseVisualStyleBackColor = true;
             this.DataBits8Radio.CheckedChanged += new System.EventHandler(this.DataBitsChanged);
@@ -239,7 +245,7 @@
             this.ParityGroup.Controls.Add(this.ParityMarkRadio);
             this.ParityGroup.Controls.Add(this.ParityNoneRadio);
             this.ParityGroup.Controls.Add(this.ParityEvenRadio);
-            this.ParityGroup.Location = new System.Drawing.Point(319, 10);
+            this.ParityGroup.Location = new System.Drawing.Point(348, 10);
             this.ParityGroup.Margin = new System.Windows.Forms.Padding(5);
             this.ParityGroup.Name = "ParityGroup";
             this.ParityGroup.Padding = new System.Windows.Forms.Padding(0);
@@ -250,33 +256,36 @@
             // 
             // ParityOddRadio
             // 
-            this.ParityOddRadio.Location = new System.Drawing.Point(5, 86);
+            this.ParityOddRadio.Location = new System.Drawing.Point(5, 42);
             this.ParityOddRadio.Margin = new System.Windows.Forms.Padding(5, 10, 5, 10);
             this.ParityOddRadio.Name = "ParityOddRadio";
             this.ParityOddRadio.Size = new System.Drawing.Size(85, 20);
             this.ParityOddRadio.TabIndex = 8;
+            this.ParityOddRadio.Tag = "1";
             this.ParityOddRadio.Text = "Odd";
             this.ParityOddRadio.UseVisualStyleBackColor = true;
             this.ParityOddRadio.CheckedChanged += new System.EventHandler(this.ParityChanged);
             // 
             // ParitySpaceRadio
             // 
-            this.ParitySpaceRadio.Location = new System.Drawing.Point(5, 107);
+            this.ParitySpaceRadio.Location = new System.Drawing.Point(5, 108);
             this.ParitySpaceRadio.Margin = new System.Windows.Forms.Padding(5, 10, 5, 10);
             this.ParitySpaceRadio.Name = "ParitySpaceRadio";
             this.ParitySpaceRadio.Size = new System.Drawing.Size(85, 24);
             this.ParitySpaceRadio.TabIndex = 7;
+            this.ParitySpaceRadio.Tag = "4";
             this.ParitySpaceRadio.Text = "Space";
             this.ParitySpaceRadio.UseVisualStyleBackColor = true;
             this.ParitySpaceRadio.CheckedChanged += new System.EventHandler(this.ParityChanged);
             // 
             // ParityMarkRadio
             // 
-            this.ParityMarkRadio.Location = new System.Drawing.Point(5, 64);
+            this.ParityMarkRadio.Location = new System.Drawing.Point(5, 86);
             this.ParityMarkRadio.Margin = new System.Windows.Forms.Padding(5, 10, 5, 10);
             this.ParityMarkRadio.Name = "ParityMarkRadio";
             this.ParityMarkRadio.Size = new System.Drawing.Size(85, 20);
             this.ParityMarkRadio.TabIndex = 9;
+            this.ParityMarkRadio.Tag = "3";
             this.ParityMarkRadio.Text = "Mark";
             this.ParityMarkRadio.UseVisualStyleBackColor = true;
             this.ParityMarkRadio.CheckedChanged += new System.EventHandler(this.ParityChanged);
@@ -290,17 +299,19 @@
             this.ParityNoneRadio.Size = new System.Drawing.Size(85, 20);
             this.ParityNoneRadio.TabIndex = 5;
             this.ParityNoneRadio.TabStop = true;
+            this.ParityNoneRadio.Tag = "0";
             this.ParityNoneRadio.Text = "None";
             this.ParityNoneRadio.UseVisualStyleBackColor = true;
             this.ParityNoneRadio.CheckedChanged += new System.EventHandler(this.ParityChanged);
             // 
             // ParityEvenRadio
             // 
-            this.ParityEvenRadio.Location = new System.Drawing.Point(5, 42);
+            this.ParityEvenRadio.Location = new System.Drawing.Point(5, 64);
             this.ParityEvenRadio.Margin = new System.Windows.Forms.Padding(5, 10, 5, 10);
             this.ParityEvenRadio.Name = "ParityEvenRadio";
             this.ParityEvenRadio.Size = new System.Drawing.Size(85, 20);
             this.ParityEvenRadio.TabIndex = 6;
+            this.ParityEvenRadio.Tag = "2";
             this.ParityEvenRadio.Text = "Even";
             this.ParityEvenRadio.UseVisualStyleBackColor = true;
             this.ParityEvenRadio.CheckedChanged += new System.EventHandler(this.ParityChanged);
@@ -309,7 +320,7 @@
             // 
             this.StopBitsGroup.Controls.Add(this.StopBitsTwoRadio);
             this.StopBitsGroup.Controls.Add(this.StopBitsOneRadio);
-            this.StopBitsGroup.Location = new System.Drawing.Point(419, 10);
+            this.StopBitsGroup.Location = new System.Drawing.Point(453, 10);
             this.StopBitsGroup.Margin = new System.Windows.Forms.Padding(5);
             this.StopBitsGroup.Name = "StopBitsGroup";
             this.StopBitsGroup.Padding = new System.Windows.Forms.Padding(0);
@@ -325,6 +336,7 @@
             this.StopBitsTwoRadio.Name = "StopBitsTwoRadio";
             this.StopBitsTwoRadio.Size = new System.Drawing.Size(50, 20);
             this.StopBitsTwoRadio.TabIndex = 8;
+            this.StopBitsTwoRadio.Tag = "2";
             this.StopBitsTwoRadio.Text = "2";
             this.StopBitsTwoRadio.UseVisualStyleBackColor = true;
             this.StopBitsTwoRadio.CheckedChanged += new System.EventHandler(this.StopBitsChanged);
@@ -338,6 +350,7 @@
             this.StopBitsOneRadio.Size = new System.Drawing.Size(50, 20);
             this.StopBitsOneRadio.TabIndex = 5;
             this.StopBitsOneRadio.TabStop = true;
+            this.StopBitsOneRadio.Tag = "1";
             this.StopBitsOneRadio.Text = "1";
             this.StopBitsOneRadio.UseVisualStyleBackColor = true;
             this.StopBitsOneRadio.CheckedChanged += new System.EventHandler(this.StopBitsChanged);
@@ -351,6 +364,7 @@
             this.HandshakeNoneRadio.Size = new System.Drawing.Size(100, 20);
             this.HandshakeNoneRadio.TabIndex = 5;
             this.HandshakeNoneRadio.TabStop = true;
+            this.HandshakeNoneRadio.Tag = "0";
             this.HandshakeNoneRadio.Text = "None";
             this.HandshakeNoneRadio.UseVisualStyleBackColor = true;
             this.HandshakeNoneRadio.CheckedChanged += new System.EventHandler(this.HandshakeChanged);
@@ -362,6 +376,7 @@
             this.HandshakeRTSRadio.Name = "HandshakeRTSRadio";
             this.HandshakeRTSRadio.Size = new System.Drawing.Size(110, 22);
             this.HandshakeRTSRadio.TabIndex = 8;
+            this.HandshakeRTSRadio.Tag = "2";
             this.HandshakeRTSRadio.Text = "RTS/CTS";
             this.HandshakeRTSRadio.UseVisualStyleBackColor = true;
             this.HandshakeRTSRadio.CheckedChanged += new System.EventHandler(this.HandshakeChanged);
@@ -370,7 +385,7 @@
             // 
             this.HandshakeGroup.Controls.Add(this.HandshakeRTSRadio);
             this.HandshakeGroup.Controls.Add(this.HandshakeNoneRadio);
-            this.HandshakeGroup.Location = new System.Drawing.Point(524, 10);
+            this.HandshakeGroup.Location = new System.Drawing.Point(558, 10);
             this.HandshakeGroup.Margin = new System.Windows.Forms.Padding(5);
             this.HandshakeGroup.Name = "HandshakeGroup";
             this.HandshakeGroup.Padding = new System.Windows.Forms.Padding(0);
@@ -379,20 +394,20 @@
             this.HandshakeGroup.TabStop = false;
             this.HandshakeGroup.Text = "Handshake";
             // 
-            // groupBox2
+            // TransmitTerminationGroup
             // 
-            this.groupBox2.Controls.Add(this.TransmitTerminationCrLfRadio);
-            this.groupBox2.Controls.Add(this.TransmitTerminationLfRadio);
-            this.groupBox2.Controls.Add(this.TransmitTerminationCrRadio);
-            this.groupBox2.Controls.Add(this.TransmitTerminationNoneRadio);
-            this.groupBox2.Location = new System.Drawing.Point(654, 10);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(5);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(0);
-            this.groupBox2.Size = new System.Drawing.Size(178, 140);
-            this.groupBox2.TabIndex = 10;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Transmit termination";
+            this.TransmitTerminationGroup.Controls.Add(this.TransmitTerminationCrLfRadio);
+            this.TransmitTerminationGroup.Controls.Add(this.TransmitTerminationLfRadio);
+            this.TransmitTerminationGroup.Controls.Add(this.TransmitTerminationCrRadio);
+            this.TransmitTerminationGroup.Controls.Add(this.TransmitTerminationNoneRadio);
+            this.TransmitTerminationGroup.Location = new System.Drawing.Point(688, 10);
+            this.TransmitTerminationGroup.Margin = new System.Windows.Forms.Padding(5);
+            this.TransmitTerminationGroup.Name = "TransmitTerminationGroup";
+            this.TransmitTerminationGroup.Padding = new System.Windows.Forms.Padding(0);
+            this.TransmitTerminationGroup.Size = new System.Drawing.Size(178, 140);
+            this.TransmitTerminationGroup.TabIndex = 10;
+            this.TransmitTerminationGroup.TabStop = false;
+            this.TransmitTerminationGroup.Text = "Transmit termination";
             // 
             // TransmitTerminationCrLfRadio
             // 
@@ -450,7 +465,7 @@
             this.groupBox1.Controls.Add(this.ReceivedDataTextBox);
             this.groupBox1.Location = new System.Drawing.Point(10, 154);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(822, 327);
+            this.groupBox1.Size = new System.Drawing.Size(856, 327);
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Receive";
@@ -459,7 +474,7 @@
             // 
             this.SerialPortDtrCheckbox.Appearance = System.Windows.Forms.Appearance.Button;
             this.SerialPortDtrCheckbox.AutoSize = true;
-            this.SerialPortDtrCheckbox.Location = new System.Drawing.Point(762, 25);
+            this.SerialPortDtrCheckbox.Location = new System.Drawing.Point(796, 25);
             this.SerialPortDtrCheckbox.Name = "SerialPortDtrCheckbox";
             this.SerialPortDtrCheckbox.Size = new System.Drawing.Size(54, 30);
             this.SerialPortDtrCheckbox.TabIndex = 1;
@@ -477,7 +492,7 @@
             this.ReceivedDataTextBox.Name = "ReceivedDataTextBox";
             this.ReceivedDataTextBox.ReadOnly = true;
             this.ReceivedDataTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-            this.ReceivedDataTextBox.Size = new System.Drawing.Size(724, 296);
+            this.ReceivedDataTextBox.Size = new System.Drawing.Size(784, 296);
             this.ReceivedDataTextBox.TabIndex = 0;
             this.ReceivedDataTextBox.Text = "";
             // 
@@ -491,43 +506,46 @@
             this.ReceivedDataFontContextItem,
             this.ReceivedDataTimestampContextItem});
             this.ReceivedDataTextBoxContextMenu.Name = "ReceivedDataTextBoxContextMenu";
-            this.ReceivedDataTextBoxContextMenu.Size = new System.Drawing.Size(190, 124);
-            // 
-            // ReceivedDataAutoscrollContextitem
-            // 
-            this.ReceivedDataAutoscrollContextitem.CheckOnClick = true;
-            this.ReceivedDataAutoscrollContextitem.Name = "ReceivedDataAutoscrollContextitem";
-            this.ReceivedDataAutoscrollContextitem.Size = new System.Drawing.Size(189, 24);
-            this.ReceivedDataAutoscrollContextitem.Text = "Autoscroll";
-            this.ReceivedDataAutoscrollContextitem.CheckedChanged += new System.EventHandler(this.AutoscrollContextMenuChanged);
+            this.ReceivedDataTextBoxContextMenu.Size = new System.Drawing.Size(196, 134);
             // 
             // ReceivedDataClearContextItem
             // 
             this.ReceivedDataClearContextItem.Name = "ReceivedDataClearContextItem";
-            this.ReceivedDataClearContextItem.Size = new System.Drawing.Size(189, 24);
+            this.ReceivedDataClearContextItem.Size = new System.Drawing.Size(195, 26);
             this.ReceivedDataClearContextItem.Text = "Clear";
             this.ReceivedDataClearContextItem.Click += new System.EventHandler(this.ClearContextMenu_Click);
-            // 
-            // ReceivedDataClearOnConnectContextItem
-            // 
-            this.ReceivedDataClearOnConnectContextItem.CheckOnClick = true;
-            this.ReceivedDataClearOnConnectContextItem.Name = "ReceivedDataClearOnConnectContextItem";
-            this.ReceivedDataClearOnConnectContextItem.Size = new System.Drawing.Size(189, 24);
-            this.ReceivedDataClearOnConnectContextItem.Text = "Clear on connect";
-            this.ReceivedDataClearOnConnectContextItem.CheckedChanged += new System.EventHandler(this.ReceivedDataClearOnconnect_Changed);
             // 
             // ReceivedDataFontContextItem
             // 
             this.ReceivedDataFontContextItem.Name = "ReceivedDataFontContextItem";
-            this.ReceivedDataFontContextItem.Size = new System.Drawing.Size(189, 24);
+            this.ReceivedDataFontContextItem.Size = new System.Drawing.Size(195, 26);
             this.ReceivedDataFontContextItem.Text = "Font";
             this.ReceivedDataFontContextItem.Click += new System.EventHandler(this.ReceivedDataFont_Click);
             // 
+            // ReceivedDataAutoscrollContextitem
+            // 
+            this.ReceivedDataAutoscrollContextitem.Checked = global::Terminal.Properties.Settings.Default.AutoscrollEnabled;
+            this.ReceivedDataAutoscrollContextitem.CheckOnClick = true;
+            this.ReceivedDataAutoscrollContextitem.Name = "ReceivedDataAutoscrollContextitem";
+            this.ReceivedDataAutoscrollContextitem.Size = new System.Drawing.Size(195, 26);
+            this.ReceivedDataAutoscrollContextitem.Text = "Autoscroll";
+            this.ReceivedDataAutoscrollContextitem.CheckedChanged += new System.EventHandler(this.AutoscrollContextMenuChanged);
+            // 
+            // ReceivedDataClearOnConnectContextItem
+            // 
+            this.ReceivedDataClearOnConnectContextItem.Checked = global::Terminal.Properties.Settings.Default.ClearOnConnect;
+            this.ReceivedDataClearOnConnectContextItem.CheckOnClick = true;
+            this.ReceivedDataClearOnConnectContextItem.Name = "ReceivedDataClearOnConnectContextItem";
+            this.ReceivedDataClearOnConnectContextItem.Size = new System.Drawing.Size(195, 26);
+            this.ReceivedDataClearOnConnectContextItem.Text = "Clear on connect";
+            this.ReceivedDataClearOnConnectContextItem.CheckedChanged += new System.EventHandler(this.ReceivedDataClearOnconnect_Changed);
+            // 
             // ReceivedDataTimestampContextItem
             // 
+            this.ReceivedDataTimestampContextItem.Checked = global::Terminal.Properties.Settings.Default.TimestampEnabled;
             this.ReceivedDataTimestampContextItem.CheckOnClick = true;
             this.ReceivedDataTimestampContextItem.Name = "ReceivedDataTimestampContextItem";
-            this.ReceivedDataTimestampContextItem.Size = new System.Drawing.Size(189, 24);
+            this.ReceivedDataTimestampContextItem.Size = new System.Drawing.Size(195, 26);
             this.ReceivedDataTimestampContextItem.Text = "Timestamp";
             this.ReceivedDataTimestampContextItem.CheckedChanged += new System.EventHandler(this.ReceivedDataTimestampChanged);
             // 
@@ -537,7 +555,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1033, 725);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.TransmitTerminationGroup);
             this.Controls.Add(this.HandshakeGroup);
             this.Controls.Add(this.StopBitsGroup);
             this.Controls.Add(this.ParityGroup);
@@ -559,8 +577,8 @@
             this.ParityGroup.ResumeLayout(false);
             this.StopBitsGroup.ResumeLayout(false);
             this.HandshakeGroup.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.TransmitTerminationGroup.ResumeLayout(false);
+            this.TransmitTerminationGroup.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ReceivedDataTextBoxContextMenu.ResumeLayout(false);
@@ -595,7 +613,7 @@
         private System.Windows.Forms.RadioButton HandshakeNoneRadio;
         private System.Windows.Forms.RadioButton HandshakeRTSRadio;
         private System.Windows.Forms.GroupBox HandshakeGroup;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox TransmitTerminationGroup;
         private System.Windows.Forms.RadioButton TransmitTerminationCrLfRadio;
         private System.Windows.Forms.RadioButton TransmitTerminationLfRadio;
         private System.Windows.Forms.RadioButton TransmitTerminationCrRadio;

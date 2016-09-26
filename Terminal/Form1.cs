@@ -36,17 +36,33 @@ namespace Terminal
         {
             try
             {
+                RadioButton CheckedRadio = new RadioButton();
+
                 // Import the user settings.
                 TransmitTerminationCharacter = Settings.Default.TransmitTerminationCharacter;
                 AutoscrollEnabled = Settings.Default.AutoscrollEnabled;
                 TimestampEnabled = Settings.Default.TimestampEnabled;
                 ClearOnConnectEnabled = Settings.Default.ClearOnConnect;
+                ReceivedDataTextBox.Font = Settings.Default.SystemFont;
 
-                SerialDataPort.BaudRate = 115200;
-                SerialDataPort.DataBits = 8;
-                SerialDataPort.Parity = Parity.None;
-                SerialDataPort.StopBits = StopBits.One;
-                SerialDataPort.Handshake = Handshake.None;
+                // Set all radiobuttons to their stored values and set the baudrate, data bits, parity,
+                // and handshake to the value they were when te application was closed.
+                RestoreRadiobuttonSettings(TransmitTerminationGroup, Settings.Default.TransmitTermination);
+                
+                CheckedRadio = RestoreRadiobuttonSettings(BaudGroup, Settings.Default.Baudrate);
+                SerialDataPort.BaudRate = Convert.ToInt32(CheckedRadio.Tag);
+
+                CheckedRadio = RestoreRadiobuttonSettings(DataBitsGroup, Settings.Default.DataBits);
+                SerialDataPort.DataBits = Convert.ToInt32(CheckedRadio.Tag);
+
+                CheckedRadio = RestoreRadiobuttonSettings(ParityGroup, Settings.Default.Parity);
+                SerialDataPort.Parity = (Parity) Convert.ToInt32(CheckedRadio.Tag);
+
+                CheckedRadio = RestoreRadiobuttonSettings(StopBitsGroup, Settings.Default.StopBits);
+                SerialDataPort.StopBits = (StopBits) Convert.ToInt32(CheckedRadio.Tag);
+
+                CheckedRadio = RestoreRadiobuttonSettings(HandshakeGroup, Settings.Default.Handshake);
+                SerialDataPort.Handshake = (Handshake) Convert.ToInt32(CheckedRadio.Tag);
             }
 
             catch (Exception exc)
@@ -67,6 +83,15 @@ namespace Terminal
                 Settings.Default.AutoscrollEnabled = AutoscrollEnabled;
                 Settings.Default.TimestampEnabled = TimestampEnabled;
                 Settings.Default.ClearOnConnect = ClearOnConnectEnabled;
+                Settings.Default.SystemFont = ReceivedDataTextBox.Font;
+
+                // Save which radiobuttons are checked.
+                SaveRadiobuttonSettings(BaudGroup, "Baudrate");
+                SaveRadiobuttonSettings(DataBitsGroup, "DataBits");
+                SaveRadiobuttonSettings(ParityGroup, "Parity");
+                SaveRadiobuttonSettings(StopBitsGroup, "StopBits");
+                SaveRadiobuttonSettings(HandshakeGroup, "Handshake");
+                SaveRadiobuttonSettings(TransmitTerminationGroup, "TransmitTermination");
 
                 Settings.Default.Save();
             }
@@ -553,6 +578,51 @@ namespace Terminal
             catch (Exception exc)
             {
                 MessageBox.Show("There was an error setting the Clear on connect property:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
+            }
+        }
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Non event handlers /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        private RadioButton RestoreRadiobuttonSettings(GroupBox RadiobuttonGroup, string StringSetting)
+        {
+            RadioButton CheckedRadio = new RadioButton();
+
+            // Loop through all radiobuttons within the group. Check the one whose text matches
+            // with the text from the setting. Uncheck all other ones.
+            foreach (RadioButton Radio in RadiobuttonGroup.Controls)
+            {
+                // Is this the readiobutton that was checked at the time the user closed the application?
+                // Yes, check it again.
+                if (Radio.Text == StringSetting)
+                {
+                    Radio.Checked = true;
+
+                    CheckedRadio = Radio;
+                }
+
+                // No, uncheck it.
+                else
+                {
+                    Radio.Checked = false;
+                }
+            }
+
+            return (CheckedRadio);
+        }
+
+        private void SaveRadiobuttonSettings(GroupBox RadiobuttonGroup, string StringSettingName)
+        {
+            // Loop through all radiobuttons in the group until the checked one is found. Then,
+            // save it's text in the settings.
+            foreach (RadioButton Radio in RadiobuttonGroup.Controls)
+            {
+                // Is this radiobutton checked?
+                // Yes, update the setting.
+                if (Radio.Checked == true)
+                {
+                    Settings.Default[StringSettingName] = Radio.Text;
+                }
             }
         }
     }
