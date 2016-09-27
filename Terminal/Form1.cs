@@ -422,13 +422,12 @@ namespace Terminal
                 // Retrieve the received data.
                 string ReceivedData = string.Empty;
 
-                /* This does not work properly, needs fixing. */
                 // Does the received string contain a Line Feed character and are timestamps enabled?
                 // Yes, add the timestamp to the data.
                 if (TimestampEnabled == true)
                 {
                     // Read lines form the buffer until there is no data left.
-                    while(SerialDataPort.BytesToRead != 0)
+                    while(SerialDataPort.BytesToRead != 0 && TimestampEnabled == true)
                     {
                         // Read a line of data form the reception buffer.
                         ReceivedData = SerialDataPort.ReadLine();
@@ -438,6 +437,14 @@ namespace Terminal
 
                         // Add the received data to the output textbox.
                         ReceivedDataTextBox.Invoke(new MethodInvoker(delegate { ReceivedDataTextBox.AppendText(ReceivedData + "\n"); }));
+
+                        // Is autoscroll enabled?
+                        // Yes, scroll to the end of the data.
+                        if (AutoscrollEnabled == true)
+                        {
+                            ReceivedDataTextBox.Invoke(new MethodInvoker(delegate { ReceivedDataTextBox.SelectionStart = ReceivedDataTextBox.Text.Length; }));
+                            ReceivedDataTextBox.Invoke(new MethodInvoker(delegate { ReceivedDataTextBox.ScrollToCaret(); }));
+                        }
                     }
                 }
 
@@ -448,14 +455,14 @@ namespace Terminal
 
                     // Add the received data to the output textbox.
                     ReceivedDataTextBox.Invoke(new MethodInvoker(delegate { ReceivedDataTextBox.AppendText(ReceivedData); }));
-                }
 
-                // Is autoscroll enabled?
-                // Yes, scroll to the end of the data.
-                if (AutoscrollEnabled == true)
-                {
-                    ReceivedDataTextBox.Invoke(new MethodInvoker(delegate { ReceivedDataTextBox.SelectionStart = ReceivedDataTextBox.Text.Length; }));
-                    ReceivedDataTextBox.Invoke(new MethodInvoker(delegate { ReceivedDataTextBox.ScrollToCaret(); }));
+                    // Is autoscroll enabled?
+                    // Yes, scroll to the end of the data.
+                    if (AutoscrollEnabled == true)
+                    {
+                        ReceivedDataTextBox.Invoke(new MethodInvoker(delegate { ReceivedDataTextBox.SelectionStart = ReceivedDataTextBox.Text.Length; }));
+                        ReceivedDataTextBox.Invoke(new MethodInvoker(delegate { ReceivedDataTextBox.ScrollToCaret(); }));
+                    }
                 }
             }
 
