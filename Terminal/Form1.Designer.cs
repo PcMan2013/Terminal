@@ -60,15 +60,21 @@
             this.TransmitTerminationCrRadio = new System.Windows.Forms.RadioButton();
             this.TransmitTerminationNoneRadio = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.ReceivedDataClearButton = new System.Windows.Forms.Button();
+            this.ReceivedDataHexCheckbox = new System.Windows.Forms.CheckBox();
+            this.ReceivedDataTimestampCheckbox = new System.Windows.Forms.CheckBox();
+            this.ReceivedDataClearOnConnectCheckbox = new System.Windows.Forms.CheckBox();
+            this.ReceivedDataAutoscrollCheckbox = new System.Windows.Forms.CheckBox();
             this.SerialPortDtrCheckbox = new System.Windows.Forms.CheckBox();
             this.ReceivedDataTextBox = new System.Windows.Forms.RichTextBox();
             this.ReceivedDataTextBoxContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.ReceivedDataClearContextItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ReceivedDataFontContextItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ReceivedDataFontDialog = new System.Windows.Forms.FontDialog();
             this.ReceivedDataAutoscrollContextitem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ReceivedDataClearContextItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ReceivedDataClearOnConnectContextItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ReceivedDataFontContextItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ReceivedDataHexContextItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ReceivedDataTimestampContextItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ReceivedDataFontDialog = new System.Windows.Forms.FontDialog();
             this.ComPortGroup.SuspendLayout();
             this.BaudGroup.SuspendLayout();
             this.DataBitsGroup.SuspendLayout();
@@ -461,6 +467,11 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.ReceivedDataClearButton);
+            this.groupBox1.Controls.Add(this.ReceivedDataHexCheckbox);
+            this.groupBox1.Controls.Add(this.ReceivedDataTimestampCheckbox);
+            this.groupBox1.Controls.Add(this.ReceivedDataClearOnConnectCheckbox);
+            this.groupBox1.Controls.Add(this.ReceivedDataAutoscrollCheckbox);
             this.groupBox1.Controls.Add(this.SerialPortDtrCheckbox);
             this.groupBox1.Controls.Add(this.ReceivedDataTextBox);
             this.groupBox1.Location = new System.Drawing.Point(10, 154);
@@ -469,6 +480,69 @@
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Receive";
+            // 
+            // ReceivedDataClearButton
+            // 
+            this.ReceivedDataClearButton.AutoSize = true;
+            this.ReceivedDataClearButton.Location = new System.Drawing.Point(10, 25);
+            this.ReceivedDataClearButton.Name = "ReceivedDataClearButton";
+            this.ReceivedDataClearButton.Size = new System.Drawing.Size(75, 30);
+            this.ReceivedDataClearButton.TabIndex = 14;
+            this.ReceivedDataClearButton.Text = "Clear";
+            this.ReceivedDataClearButton.UseVisualStyleBackColor = true;
+            this.ReceivedDataClearButton.Click += new System.EventHandler(this.ReceivedDataClear_Click);
+            // 
+            // ReceivedDataHexCheckbox
+            // 
+            this.ReceivedDataHexCheckbox.AutoSize = true;
+            this.ReceivedDataHexCheckbox.Checked = global::Terminal.Properties.Settings.Default.HexEnabled;
+            this.ReceivedDataHexCheckbox.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::Terminal.Properties.Settings.Default, "HexEnabled", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.ReceivedDataHexCheckbox.Location = new System.Drawing.Point(487, 29);
+            this.ReceivedDataHexCheckbox.Name = "ReceivedDataHexCheckbox";
+            this.ReceivedDataHexCheckbox.Size = new System.Drawing.Size(61, 24);
+            this.ReceivedDataHexCheckbox.TabIndex = 13;
+            this.ReceivedDataHexCheckbox.Text = "Hex";
+            this.ReceivedDataHexCheckbox.UseVisualStyleBackColor = true;
+            this.ReceivedDataHexCheckbox.CheckedChanged += new System.EventHandler(this.ReceivedDataHexChanged);
+            // 
+            // ReceivedDataTimestampCheckbox
+            // 
+            this.ReceivedDataTimestampCheckbox.AutoSize = true;
+            this.ReceivedDataTimestampCheckbox.Checked = global::Terminal.Properties.Settings.Default.TimestampEnabled;
+            this.ReceivedDataTimestampCheckbox.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::Terminal.Properties.Settings.Default, "TimestampEnabled", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.ReceivedDataTimestampCheckbox.Location = new System.Drawing.Point(367, 29);
+            this.ReceivedDataTimestampCheckbox.Name = "ReceivedDataTimestampCheckbox";
+            this.ReceivedDataTimestampCheckbox.Size = new System.Drawing.Size(114, 24);
+            this.ReceivedDataTimestampCheckbox.TabIndex = 12;
+            this.ReceivedDataTimestampCheckbox.Text = "Timestamp";
+            this.ReceivedDataTimestampCheckbox.UseVisualStyleBackColor = true;
+            this.ReceivedDataTimestampCheckbox.CheckedChanged += new System.EventHandler(this.ReceivedDataTimestampChanged);
+            // 
+            // ReceivedDataClearOnConnectCheckbox
+            // 
+            this.ReceivedDataClearOnConnectCheckbox.AutoSize = true;
+            this.ReceivedDataClearOnConnectCheckbox.Checked = global::Terminal.Properties.Settings.Default.ClearOnConnect;
+            this.ReceivedDataClearOnConnectCheckbox.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::Terminal.Properties.Settings.Default, "ClearOnConnect", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.ReceivedDataClearOnConnectCheckbox.Location = new System.Drawing.Point(203, 29);
+            this.ReceivedDataClearOnConnectCheckbox.Name = "ReceivedDataClearOnConnectCheckbox";
+            this.ReceivedDataClearOnConnectCheckbox.Size = new System.Drawing.Size(158, 24);
+            this.ReceivedDataClearOnConnectCheckbox.TabIndex = 3;
+            this.ReceivedDataClearOnConnectCheckbox.Text = "Clear on connect";
+            this.ReceivedDataClearOnConnectCheckbox.UseVisualStyleBackColor = true;
+            this.ReceivedDataClearOnConnectCheckbox.CheckedChanged += new System.EventHandler(this.ReceivedDataClearOnconnect_Changed);
+            // 
+            // ReceivedDataAutoscrollCheckbox
+            // 
+            this.ReceivedDataAutoscrollCheckbox.AutoSize = true;
+            this.ReceivedDataAutoscrollCheckbox.Checked = global::Terminal.Properties.Settings.Default.AutoscrollEnabled;
+            this.ReceivedDataAutoscrollCheckbox.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::Terminal.Properties.Settings.Default, "AutoscrollEnabled", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.ReceivedDataAutoscrollCheckbox.Location = new System.Drawing.Point(91, 29);
+            this.ReceivedDataAutoscrollCheckbox.Name = "ReceivedDataAutoscrollCheckbox";
+            this.ReceivedDataAutoscrollCheckbox.Size = new System.Drawing.Size(106, 24);
+            this.ReceivedDataAutoscrollCheckbox.TabIndex = 2;
+            this.ReceivedDataAutoscrollCheckbox.Text = "Autoscroll";
+            this.ReceivedDataAutoscrollCheckbox.UseVisualStyleBackColor = true;
+            this.ReceivedDataAutoscrollCheckbox.CheckedChanged += new System.EventHandler(this.AutoscrollContextMenuChanged);
             // 
             // SerialPortDtrCheckbox
             // 
@@ -488,11 +562,11 @@
             this.ReceivedDataTextBox.ContextMenuStrip = this.ReceivedDataTextBoxContextMenu;
             this.ReceivedDataTextBox.DetectUrls = false;
             this.ReceivedDataTextBox.Font = new System.Drawing.Font("Monospac821 BT", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ReceivedDataTextBox.Location = new System.Drawing.Point(6, 25);
+            this.ReceivedDataTextBox.Location = new System.Drawing.Point(10, 61);
             this.ReceivedDataTextBox.Name = "ReceivedDataTextBox";
             this.ReceivedDataTextBox.ReadOnly = true;
             this.ReceivedDataTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-            this.ReceivedDataTextBox.Size = new System.Drawing.Size(784, 296);
+            this.ReceivedDataTextBox.Size = new System.Drawing.Size(840, 260);
             this.ReceivedDataTextBox.TabIndex = 0;
             this.ReceivedDataTextBox.Text = "";
             // 
@@ -504,23 +578,10 @@
             this.ReceivedDataClearContextItem,
             this.ReceivedDataClearOnConnectContextItem,
             this.ReceivedDataFontContextItem,
+            this.ReceivedDataHexContextItem,
             this.ReceivedDataTimestampContextItem});
             this.ReceivedDataTextBoxContextMenu.Name = "ReceivedDataTextBoxContextMenu";
-            this.ReceivedDataTextBoxContextMenu.Size = new System.Drawing.Size(196, 134);
-            // 
-            // ReceivedDataClearContextItem
-            // 
-            this.ReceivedDataClearContextItem.Name = "ReceivedDataClearContextItem";
-            this.ReceivedDataClearContextItem.Size = new System.Drawing.Size(195, 26);
-            this.ReceivedDataClearContextItem.Text = "Clear";
-            this.ReceivedDataClearContextItem.Click += new System.EventHandler(this.ClearContextMenu_Click);
-            // 
-            // ReceivedDataFontContextItem
-            // 
-            this.ReceivedDataFontContextItem.Name = "ReceivedDataFontContextItem";
-            this.ReceivedDataFontContextItem.Size = new System.Drawing.Size(195, 26);
-            this.ReceivedDataFontContextItem.Text = "Font";
-            this.ReceivedDataFontContextItem.Click += new System.EventHandler(this.ReceivedDataFont_Click);
+            this.ReceivedDataTextBoxContextMenu.Size = new System.Drawing.Size(196, 160);
             // 
             // ReceivedDataAutoscrollContextitem
             // 
@@ -531,6 +592,13 @@
             this.ReceivedDataAutoscrollContextitem.Text = "Autoscroll";
             this.ReceivedDataAutoscrollContextitem.CheckedChanged += new System.EventHandler(this.AutoscrollContextMenuChanged);
             // 
+            // ReceivedDataClearContextItem
+            // 
+            this.ReceivedDataClearContextItem.Name = "ReceivedDataClearContextItem";
+            this.ReceivedDataClearContextItem.Size = new System.Drawing.Size(195, 26);
+            this.ReceivedDataClearContextItem.Text = "Clear";
+            this.ReceivedDataClearContextItem.Click += new System.EventHandler(this.ReceivedDataClear_Click);
+            // 
             // ReceivedDataClearOnConnectContextItem
             // 
             this.ReceivedDataClearOnConnectContextItem.Checked = global::Terminal.Properties.Settings.Default.ClearOnConnect;
@@ -539,6 +607,22 @@
             this.ReceivedDataClearOnConnectContextItem.Size = new System.Drawing.Size(195, 26);
             this.ReceivedDataClearOnConnectContextItem.Text = "Clear on connect";
             this.ReceivedDataClearOnConnectContextItem.CheckedChanged += new System.EventHandler(this.ReceivedDataClearOnconnect_Changed);
+            // 
+            // ReceivedDataFontContextItem
+            // 
+            this.ReceivedDataFontContextItem.Name = "ReceivedDataFontContextItem";
+            this.ReceivedDataFontContextItem.Size = new System.Drawing.Size(195, 26);
+            this.ReceivedDataFontContextItem.Text = "Font";
+            this.ReceivedDataFontContextItem.Click += new System.EventHandler(this.ReceivedDataFont_Click);
+            // 
+            // ReceivedDataHexContextItem
+            // 
+            this.ReceivedDataHexContextItem.Checked = global::Terminal.Properties.Settings.Default.HexEnabled;
+            this.ReceivedDataHexContextItem.CheckOnClick = true;
+            this.ReceivedDataHexContextItem.Name = "ReceivedDataHexContextItem";
+            this.ReceivedDataHexContextItem.Size = new System.Drawing.Size(195, 26);
+            this.ReceivedDataHexContextItem.Text = "Hex";
+            this.ReceivedDataHexContextItem.CheckedChanged += new System.EventHandler(this.ReceivedDataHexChanged);
             // 
             // ReceivedDataTimestampContextItem
             // 
@@ -628,6 +712,12 @@
         private System.Windows.Forms.CheckBox SerialPortDtrCheckbox;
         private System.Windows.Forms.ToolStripMenuItem ReceivedDataTimestampContextItem;
         private System.Windows.Forms.ToolStripMenuItem ReceivedDataClearOnConnectContextItem;
+        private System.Windows.Forms.CheckBox ReceivedDataTimestampCheckbox;
+        private System.Windows.Forms.CheckBox ReceivedDataClearOnConnectCheckbox;
+        private System.Windows.Forms.CheckBox ReceivedDataAutoscrollCheckbox;
+        private System.Windows.Forms.CheckBox ReceivedDataHexCheckbox;
+        private System.Windows.Forms.ToolStripMenuItem ReceivedDataHexContextItem;
+        private System.Windows.Forms.Button ReceivedDataClearButton;
 
     }
 }

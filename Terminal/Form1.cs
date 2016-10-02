@@ -16,13 +16,14 @@ namespace Terminal
 {
     public partial class SerialTerminal : Form
     {
-        bool SerialPortConnected = false;
+        private bool SerialPortConnected = false;
 
         // Settings
-        string TransmitTerminationCharacter = "";
-        bool AutoscrollEnabled = false;
-        bool TimestampEnabled = false;
-        bool ClearOnConnectEnabled = false;
+        private string TransmitTerminationCharacter = "";
+        private bool AutoscrollEnabled = false;
+        private bool TimestampEnabled = false;
+        private bool ClearOnConnectEnabled = false;
+        private bool HexEnabled = false;
 
         public SerialTerminal()
         {
@@ -44,6 +45,7 @@ namespace Terminal
                 TimestampEnabled = Settings.Default.TimestampEnabled;
                 ClearOnConnectEnabled = Settings.Default.ClearOnConnect;
                 ReceivedDataTextBox.Font = Settings.Default.SystemFont;
+                HexEnabled = Settings.Default.HexEnabled;
 
                 // Set all radiobuttons to their stored values and set the baudrate, data bits, parity,
                 // and handshake to the value they were when te application was closed.
@@ -84,6 +86,7 @@ namespace Terminal
                 Settings.Default.TimestampEnabled = TimestampEnabled;
                 Settings.Default.ClearOnConnect = ClearOnConnectEnabled;
                 Settings.Default.SystemFont = ReceivedDataTextBox.Font;
+                Settings.Default.HexEnabled = HexEnabled;
 
                 // Save which radiobuttons are checked.
                 SaveRadiobuttonSettings(BaudGroup, "Baudrate");
@@ -184,7 +187,7 @@ namespace Terminal
                         // Yes, clear the received data textbox.
                         if (ClearOnConnectEnabled == true)
                         {
-                            ClearContextMenu_Click(sender, e);
+                            ReceivedDataClear_Click(sender, e);
                         }
 
                         // Disable the COM port list.
@@ -433,17 +436,24 @@ namespace Terminal
                         ReceivedData = SerialDataPort.ReadLine();
 
                         // Prepend the current time to the received data.
-                        ReceivedDataTextBox.Invoke(new MethodInvoker(delegate { ReceivedDataTextBox.AppendText(DateTime.Now.ToString("HH:mm:ss", System.Globalization.DateTimeFormatInfo.InvariantInfo) + "\t"); }));
+                        PrintReceivedData(DateTime.Now.ToString("HH:mm:ss", System.Globalization.DateTimeFormatInfo.InvariantInfo) + "\t");
+
+                        // Is the hex view enabled?
+                        // Yes, convert the received data to a hexadecimal string and print it.
+                        if(HexEnabled == true)
+                        {
+                            // Convert the received data to a hexadecimal string.
+                            ReceivedData = ConvertAsciiStringToHexString(ReceivedData);
+                        }
 
                         // Add the received data to the output textbox.
-                        ReceivedDataTextBox.Invoke(new MethodInvoker(delegate { ReceivedDataTextBox.AppendText(ReceivedData + "\n"); }));
+                        PrintReceivedData(ReceivedData + "\n");
 
                         // Is autoscroll enabled?
                         // Yes, scroll to the end of the data.
                         if (AutoscrollEnabled == true)
                         {
-                            ReceivedDataTextBox.Invoke(new MethodInvoker(delegate { ReceivedDataTextBox.SelectionStart = ReceivedDataTextBox.Text.Length; }));
-                            ReceivedDataTextBox.Invoke(new MethodInvoker(delegate { ReceivedDataTextBox.ScrollToCaret(); }));
+                            ReceivedDataTextboxScrollToEnd();
                         }
                     }
                 }
@@ -453,15 +463,22 @@ namespace Terminal
                     // Retrieve all received data.
                     ReceivedData = SerialDataPort.ReadExisting();
 
-                    // Add the received data to the output textbox.
-                    ReceivedDataTextBox.Invoke(new MethodInvoker(delegate { ReceivedDataTextBox.AppendText(ReceivedData); }));
+                    // Is the hex view enabled?
+                    // Yes, convert the received data to a hexadecimal string and print it.
+                    if (HexEnabled == true)
+                    {
+                        // Convert the received data to a hexadecimal string.
+                        ReceivedData = ConvertAsciiStringToHexString(ReceivedData);
+                    }
 
+                    // Add the received data to the output textbox.
+                    PrintReceivedData(ReceivedData);
+                    
                     // Is autoscroll enabled?
                     // Yes, scroll to the end of the data.
                     if (AutoscrollEnabled == true)
                     {
-                        ReceivedDataTextBox.Invoke(new MethodInvoker(delegate { ReceivedDataTextBox.SelectionStart = ReceivedDataTextBox.Text.Length; }));
-                        ReceivedDataTextBox.Invoke(new MethodInvoker(delegate { ReceivedDataTextBox.ScrollToCaret(); }));
+                        ReceivedDataTextboxScrollToEnd();
                     }
                 }
             }
@@ -486,12 +503,15 @@ namespace Terminal
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Context menu ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        private void ClearContextMenu_Click(object sender, EventArgs e)
+        private void ReceivedDataClear_Click(object sender, EventArgs e)
         {
             try
             {
                 // Clear the contents of the rich text box.
-                ReceivedDataTextBox.Invoke(new MethodInvoker(delegate { ReceivedDataTextBox.Clear(); }));
+                ReceivedDataTextBox.Invoke(new MethodInvoker(delegate 
+                { 
+                    ReceivedDataTextBox.Clear(); 
+                }));
             }
 
             catch (Exception exc)
@@ -504,8 +524,25 @@ namespace Terminal
         {
             try
             {
-                // Copy the boolean checked state of the context menu item to the enable/disable flag.
-                AutoscrollEnabled = ReceivedDataAutoscrollContextitem.Checked;
+                // Is the sender an item from a context menu?
+                // Yes, update AutoscrollEnabled from the sender's checked property.
+                if (sender is ToolStripMenuItem)
+                {
+                    ToolStripMenuItem item = (ToolStripMenuItem) sender;
+                    ReceivedDataAutoscrollCheckbox.Checked = item.Checked;
+
+                    AutoscrollEnabled = item.Checked;
+                }
+
+                // No, is the sender a checkbox?
+                // Yes, update AutoscrollEnabled from the sender's checked property.
+                else if (sender is CheckBox)
+                {
+                    CheckBox item = (CheckBox)sender;
+                    ReceivedDataAutoscrollContextitem.Checked = item.Checked;
+
+                    AutoscrollEnabled = item.Checked;
+                }
             }
 
             catch (Exception exc)
@@ -536,8 +573,25 @@ namespace Terminal
         {
             try
             {
-                // Copy the boolean checked state of the context menu item to the setting.
-                TimestampEnabled = ReceivedDataTimestampContextItem.Checked;
+                // Is the sender an item from a context menu?
+                // Yes, update TimestampEnabled from the sender's checked property.
+                if (sender is ToolStripMenuItem)
+                {
+                    ToolStripMenuItem item = (ToolStripMenuItem) sender;
+                    ReceivedDataTimestampCheckbox.Checked = item.Checked;
+
+                    TimestampEnabled = item.Checked;
+                }
+
+                // No, is the sender a checkbox?
+                // Yes, update TimestampEnabled from the sender's checked property.
+                else if (sender is CheckBox)
+                {
+                    CheckBox item = (CheckBox)sender;
+                    ReceivedDataTimestampContextItem.Checked = item.Checked;
+
+                    TimestampEnabled = item.Checked;
+                }
             }
 
             catch (Exception exc)
@@ -578,13 +632,61 @@ namespace Terminal
         {
             try
             {
-                // Set or clear the clear on connect property.
-                ClearOnConnectEnabled = ReceivedDataClearOnConnectContextItem.Checked; ;
+                // Is the sender an item from a context menu?
+                // Yes, update ClearOnConnectEnabled from the sender's checked property.
+                if (sender is ToolStripMenuItem)
+                {
+                    ToolStripMenuItem item = (ToolStripMenuItem) sender;
+                    ReceivedDataClearOnConnectCheckbox.Checked = item.Checked;
+
+                    ClearOnConnectEnabled = item.Checked;
+                }
+
+                // No, is the sender a checkbox?
+                // Yes, update ClearOnConnectEnabled from the sender's checked property.
+                else if(sender is CheckBox)
+                {
+                    CheckBox item = (CheckBox)sender;
+                    ReceivedDataClearOnConnectContextItem.Checked = item.Checked;
+
+                    ClearOnConnectEnabled = item.Checked;
+                }
             }
 
             catch (Exception exc)
             {
                 MessageBox.Show("There was an error setting the Clear on connect property:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
+            }
+        }
+
+        private void ReceivedDataHexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                // Is the sender an item from a context menu?
+                // Yes, update ClearOnConnectEnabled from the sender's checked property.
+                if (sender is ToolStripMenuItem)
+                {
+                    ToolStripMenuItem item = (ToolStripMenuItem)sender;
+                    ReceivedDataHexCheckbox.Checked = item.Checked;
+
+                    HexEnabled = item.Checked;
+                }
+
+                // No, is the sender a checkbox?
+                // Yes, update ClearOnConnectEnabled from the sender's checked property.
+                else if (sender is CheckBox)
+                {
+                    CheckBox item = (CheckBox)sender;
+                    ReceivedDataHexContextItem.Checked = item.Checked;
+
+                    HexEnabled = item.Checked;
+                }
+            }
+
+            catch (Exception exc)
+            {
+                MessageBox.Show("There was an error setting the Hex property:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
             }
         }
 
@@ -630,6 +732,58 @@ namespace Terminal
                 {
                     Settings.Default[StringSettingName] = Radio.Text;
                 }
+            }
+        }
+
+        private string ConvertAsciiStringToHexString(string InputString)
+        {
+            // Convert the input string to an array of characters.
+            char[] InputCharArray = InputString.ToCharArray();
+            string OutputString = "";
+
+            // Loop through all characters and convert them to a hexadecimal string.
+            foreach (char Character in InputCharArray)
+            {
+                OutputString += String.Format("{0:X2} ", Convert.ToInt32(Character));
+            }
+
+            return (OutputString);
+        }
+
+        private void PrintReceivedData(string InputString)
+        {
+            try
+            {
+                // Add the input string to the received data textbox.
+                ReceivedDataTextBox.Invoke(new MethodInvoker(delegate 
+                { 
+                    ReceivedDataTextBox.AppendText(InputString); 
+                } ));
+            }
+
+            catch(Exception exc)
+            {
+                MessageBox.Show("There was an error printing the received data:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
+            }
+        }
+
+        private void ReceivedDataTextboxScrollToEnd()
+        {
+            try
+            {
+                ReceivedDataTextBox.Invoke(new MethodInvoker(delegate 
+                { 
+                    // Set the caret to the end of the text contained in the text box.
+                    ReceivedDataTextBox.SelectionStart = ReceivedDataTextBox.Text.Length;
+
+                    // Scroll to the caret.
+                    ReceivedDataTextBox.ScrollToCaret();
+                }));
+            }
+
+            catch (Exception exc)
+            {
+                MessageBox.Show("There was an error scrolling to the latest received data:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
             }
         }
     }

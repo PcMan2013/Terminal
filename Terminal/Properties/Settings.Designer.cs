@@ -154,5 +154,17 @@ namespace Terminal.Properties {
                 this["TransmitTermination"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool HexEnabled {
+            get {
+                return ((bool)(this["HexEnabled"]));
+            }
+            set {
+                this["HexEnabled"] = value;
+            }
+        }
     }
 }
