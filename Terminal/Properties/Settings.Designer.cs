@@ -25,7 +25,7 @@ namespace Terminal.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("\"\"")]
+        [global::System.Configuration.DefaultSettingValueAttribute("\"\\r\"")]
         public string TransmitTerminationCharacter {
             get {
                 return ((string)(this["TransmitTerminationCharacter"]));
@@ -38,36 +38,36 @@ namespace Terminal.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool AutoscrollEnabled {
+        public bool ReiceveDataAutoscrollEnabled {
             get {
-                return ((bool)(this["AutoscrollEnabled"]));
+                return ((bool)(this["ReiceveDataAutoscrollEnabled"]));
             }
             set {
-                this["AutoscrollEnabled"] = value;
+                this["ReiceveDataAutoscrollEnabled"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool TimestampEnabled {
+        public bool ReceivedDataTimestampEnabled {
             get {
-                return ((bool)(this["TimestampEnabled"]));
+                return ((bool)(this["ReceivedDataTimestampEnabled"]));
             }
             set {
-                this["TimestampEnabled"] = value;
+                this["ReceivedDataTimestampEnabled"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool ClearOnConnect {
+        public bool ReceivedDataClearOnConnect {
             get {
-                return ((bool)(this["ClearOnConnect"]));
+                return ((bool)(this["ReceivedDataClearOnConnect"]));
             }
             set {
-                this["ClearOnConnect"] = value;
+                this["ReceivedDataClearOnConnect"] = value;
             }
         }
         
@@ -145,25 +145,217 @@ namespace Terminal.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("None")]
-        public string TransmitTermination {
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ReceivedDataHexEnabled {
             get {
-                return ((string)(this["TransmitTermination"]));
+                return ((bool)(this["ReceivedDataHexEnabled"]));
             }
             set {
-                this["TransmitTermination"] = value;
+                this["ReceivedDataHexEnabled"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool HexEnabled {
+        public bool TransmitData1HexEnabled {
             get {
-                return ((bool)(this["HexEnabled"]));
+                return ((bool)(this["TransmitData1HexEnabled"]));
             }
             set {
-                this["HexEnabled"] = value;
+                this["TransmitData1HexEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TransmitData2HexEnabled {
+            get {
+                return ((bool)(this["TransmitData2HexEnabled"]));
+            }
+            set {
+                this["TransmitData2HexEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TransmitData3HexEnabled {
+            get {
+                return ((bool)(this["TransmitData3HexEnabled"]));
+            }
+            set {
+                this["TransmitData3HexEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TransmitData4HexEnabled {
+            get {
+                return ((bool)(this["TransmitData4HexEnabled"]));
+            }
+            set {
+                this["TransmitData4HexEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TransmitData1TerminateEnabled {
+            get {
+                return ((bool)(this["TransmitData1TerminateEnabled"]));
+            }
+            set {
+                this["TransmitData1TerminateEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TransmitData2TerminateEnabled {
+            get {
+                return ((bool)(this["TransmitData2TerminateEnabled"]));
+            }
+            set {
+                this["TransmitData2TerminateEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TransmitData3TerminateEnabled {
+            get {
+                return ((bool)(this["TransmitData3TerminateEnabled"]));
+            }
+            set {
+                this["TransmitData3TerminateEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TransmitData4TerminateEnabled {
+            get {
+                return ((bool)(this["TransmitData4TerminateEnabled"]));
+            }
+            set {
+                this["TransmitData4TerminateEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TransmitDataMultiLineTerminateEnabled {
+            get {
+                return ((bool)(this["TransmitDataMultiLineTerminateEnabled"]));
+            }
+            set {
+                this["TransmitDataMultiLineTerminateEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TransmittedDataAutoscrollEnabled {
+            get {
+                return ((bool)(this["TransmittedDataAutoscrollEnabled"]));
+            }
+            set {
+                this["TransmittedDataAutoscrollEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TransmittedDataClearOnConnectEnabled {
+            get {
+                return ((bool)(this["TransmittedDataClearOnConnectEnabled"]));
+            }
+            set {
+                this["TransmittedDataClearOnConnectEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TransmittedDataTimestampEnabled {
+            get {
+                return ((bool)(this["TransmittedDataTimestampEnabled"]));
+            }
+            set {
+                this["TransmittedDataTimestampEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TransmitData1ClearOnSendEnabled {
+            get {
+                return ((bool)(this["TransmitData1ClearOnSendEnabled"]));
+            }
+            set {
+                this["TransmitData1ClearOnSendEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TransmitData2ClearOnSendEnabled {
+            get {
+                return ((bool)(this["TransmitData2ClearOnSendEnabled"]));
+            }
+            set {
+                this["TransmitData2ClearOnSendEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TransmitData3ClearOnSendEnabled {
+            get {
+                return ((bool)(this["TransmitData3ClearOnSendEnabled"]));
+            }
+            set {
+                this["TransmitData3ClearOnSendEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TransmitData4ClearOnSendEnabled {
+            get {
+                return ((bool)(this["TransmitData4ClearOnSendEnabled"]));
+            }
+            set {
+                this["TransmitData4ClearOnSendEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TransmitDataMultiLineClearOnSendEnabled {
+            get {
+                return ((bool)(this["TransmitDataMultiLineClearOnSendEnabled"]));
+            }
+            set {
+                this["TransmitDataMultiLineClearOnSendEnabled"] = value;
             }
         }
     }

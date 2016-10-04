@@ -18,12 +18,35 @@ namespace Terminal
     {
         private bool SerialPortConnected = false;
 
-        // Settings
-        private string TransmitTerminationCharacter = "";
-        private bool AutoscrollEnabled = false;
-        private bool TimestampEnabled = false;
-        private bool ClearOnConnectEnabled = false;
-        private bool HexEnabled = false;
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Form ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Received data //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        private bool ReceivedDataAutoscrollEnabled = false;
+        private bool ReceivedDataTimestampEnabled = false;
+        private bool ReceivedDataClearOnConnectEnabled = false;
+        private bool ReceivedDataHexEnabled = false;
+
+        // Transmitted data ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        private bool TransmittedDataAutoscrollEnabled = false;
+        private bool TransmittedDataTimestampEnabled = false;
+        private bool TransmittedDataClearOnConnectEnabled = false;
+        private bool TransmitData1HexEnabled = false;
+        private bool TransmitData2HexEnabled = false;
+        private bool TransmitData3HexEnabled = false;
+        private bool TransmitData4HexEnabled = false;
+        private bool TransmitData1TerminateEnabled = false;
+        private bool TransmitData2TerminateEnabled = false;
+        private bool TransmitData3TerminateEnabled = false;
+        private bool TransmitData4TerminateEnabled = false;
+        private bool TransmitDataMultiLineTerminateEnabled = false;
+        private bool TransmitData1ClearOnSendEnabled = false;
+        private bool TransmitData2ClearOnSendEnabled = false;
+        private bool TransmitData3ClearOnSendEnabled = false;
+        private bool TransmitData4ClearOnSendEnabled = false;
+        private bool TransmitDataMultiLineClearOnSendEnabled = false;
+    
+        private string TransmitTerminationCharacter = "\r";
 
         public SerialTerminal()
         {
@@ -40,16 +63,33 @@ namespace Terminal
                 RadioButton CheckedRadio = new RadioButton();
 
                 // Import the user settings.
-                TransmitTerminationCharacter = Settings.Default.TransmitTerminationCharacter;
-                AutoscrollEnabled = Settings.Default.AutoscrollEnabled;
-                TimestampEnabled = Settings.Default.TimestampEnabled;
-                ClearOnConnectEnabled = Settings.Default.ClearOnConnect;
-                ReceivedDataTextBox.Font = Settings.Default.SystemFont;
-                HexEnabled = Settings.Default.HexEnabled;
+                TransmitTerminationCharacter            = Settings.Default.TransmitTerminationCharacter;
+                ReceivedDataAutoscrollEnabled           = Settings.Default.ReiceveDataAutoscrollEnabled;
+                ReceivedDataTimestampEnabled            = Settings.Default.ReceivedDataTimestampEnabled;
+                ReceivedDataClearOnConnectEnabled       = Settings.Default.ReceivedDataClearOnConnect;
+                ReceivedDataTextBox.Font                = Settings.Default.SystemFont;
+                ReceivedDataHexEnabled                  = Settings.Default.ReceivedDataHexEnabled;
+                TransmittedDataAutoscrollEnabled        = Settings.Default.TransmittedDataAutoscrollEnabled;
+                TransmittedDataTimestampEnabled         = Settings.Default.TransmittedDataTimestampEnabled;
+                TransmittedDataClearOnConnectEnabled    = Settings.Default.TransmittedDataClearOnConnectEnabled;
+                TransmitData1HexEnabled                 = Settings.Default.TransmitData1HexEnabled;
+                TransmitData2HexEnabled                 = Settings.Default.TransmitData2HexEnabled;
+                TransmitData3HexEnabled                 = Settings.Default.TransmitData3HexEnabled;
+                TransmitData4HexEnabled                 = Settings.Default.TransmitData4HexEnabled;
+                TransmitDataMultiLineTerminateEnabled   = Settings.Default.TransmitDataMultiLineTerminateEnabled;
+                TransmitData1TerminateEnabled           = Settings.Default.TransmitData1TerminateEnabled;
+                TransmitData2TerminateEnabled           = Settings.Default.TransmitData2TerminateEnabled;
+                TransmitData3TerminateEnabled           = Settings.Default.TransmitData3TerminateEnabled;
+                TransmitData4TerminateEnabled           = Settings.Default.TransmitData4TerminateEnabled;
+                TransmitData1ClearOnSendEnabled         = Settings.Default.TransmitData1ClearOnSendEnabled;
+                TransmitData2ClearOnSendEnabled         = Settings.Default.TransmitData2ClearOnSendEnabled;
+                TransmitData3ClearOnSendEnabled         = Settings.Default.TransmitData3ClearOnSendEnabled;
+                TransmitData4ClearOnSendEnabled         = Settings.Default.TransmitData4ClearOnSendEnabled;
+                TransmitDataMultiLineClearOnSendEnabled = Settings.Default.TransmitDataMultiLineClearOnSendEnabled;
 
                 // Set all radiobuttons to their stored values and set the baudrate, data bits, parity,
                 // and handshake to the value they were when te application was closed.
-                RestoreRadiobuttonSettings(TransmitTerminationGroup, Settings.Default.TransmitTermination);
+                RestoreRadiobuttonSettings(TransmitTerminationGroup, Settings.Default.TransmitTerminationCharacter);
                 
                 CheckedRadio = RestoreRadiobuttonSettings(BaudGroup, Settings.Default.Baudrate);
                 SerialDataPort.BaudRate = Convert.ToInt32(CheckedRadio.Tag);
@@ -81,12 +121,29 @@ namespace Terminal
                 SerialDataPort.Close();
 
                 // Save the user settings.
-                Settings.Default.TransmitTerminationCharacter = TransmitTerminationCharacter;
-                Settings.Default.AutoscrollEnabled = AutoscrollEnabled;
-                Settings.Default.TimestampEnabled = TimestampEnabled;
-                Settings.Default.ClearOnConnect = ClearOnConnectEnabled;
-                Settings.Default.SystemFont = ReceivedDataTextBox.Font;
-                Settings.Default.HexEnabled = HexEnabled;
+                Settings.Default.TransmitTerminationCharacter           = TransmitTerminationCharacter;
+                Settings.Default.ReiceveDataAutoscrollEnabled           = ReceivedDataAutoscrollEnabled;
+                Settings.Default.ReceivedDataTimestampEnabled           = ReceivedDataTimestampEnabled;
+                Settings.Default.ReceivedDataClearOnConnect             = ReceivedDataClearOnConnectEnabled;
+                Settings.Default.SystemFont                             = ReceivedDataTextBox.Font;
+                Settings.Default.ReceivedDataHexEnabled                 = ReceivedDataHexEnabled;
+                Settings.Default.TransmittedDataAutoscrollEnabled       = TransmittedDataAutoscrollEnabled;
+                Settings.Default.TransmittedDataTimestampEnabled        = TransmittedDataTimestampEnabled;
+                Settings.Default.TransmittedDataClearOnConnectEnabled   = TransmittedDataClearOnConnectEnabled;
+                Settings.Default.TransmitData1HexEnabled                = TransmitData1HexEnabled;
+                Settings.Default.TransmitData2HexEnabled                = TransmitData2HexEnabled;
+                Settings.Default.TransmitData3HexEnabled                = TransmitData3HexEnabled;
+                Settings.Default.TransmitData4HexEnabled                = TransmitData4HexEnabled;
+                Settings.Default.TransmitDataMultiLineTerminateEnabled  = TransmitDataMultiLineTerminateEnabled;
+                Settings.Default.TransmitData1TerminateEnabled          = TransmitData1TerminateEnabled;
+                Settings.Default.TransmitData2TerminateEnabled          = TransmitData2TerminateEnabled;
+                Settings.Default.TransmitData3TerminateEnabled          = TransmitData3TerminateEnabled;
+                Settings.Default.TransmitData4TerminateEnabled          = TransmitData4TerminateEnabled;
+                Settings.Default.TransmitData1ClearOnSendEnabled        = TransmitData1ClearOnSendEnabled;
+                Settings.Default.TransmitData2ClearOnSendEnabled        = TransmitData2ClearOnSendEnabled;
+                Settings.Default.TransmitData3ClearOnSendEnabled        = TransmitData3ClearOnSendEnabled;
+                Settings.Default.TransmitData4ClearOnSendEnabled        = TransmitData4ClearOnSendEnabled;
+                Settings.Default.TransmitDataMultiLineClearOnSendEnabled = TransmitDataMultiLineClearOnSendEnabled;
 
                 // Save which radiobuttons are checked.
                 SaveRadiobuttonSettings(BaudGroup, "Baudrate");
@@ -94,7 +151,7 @@ namespace Terminal
                 SaveRadiobuttonSettings(ParityGroup, "Parity");
                 SaveRadiobuttonSettings(StopBitsGroup, "StopBits");
                 SaveRadiobuttonSettings(HandshakeGroup, "Handshake");
-                SaveRadiobuttonSettings(TransmitTerminationGroup, "TransmitTermination");
+                SaveRadiobuttonSettings(TransmitTerminationGroup, "TransmitTerminationCharacter");
 
                 Settings.Default.Save();
             }
@@ -185,7 +242,7 @@ namespace Terminal
 
                         // Is Clear on connect enabled?
                         // Yes, clear the received data textbox.
-                        if (ClearOnConnectEnabled == true)
+                        if (ReceivedDataClearOnConnectEnabled == true)
                         {
                             ReceivedDataClear_Click(sender, e);
                         }
@@ -385,13 +442,7 @@ namespace Terminal
         {
             try
             {
-                // Determine which transmit termination character is selected and store it.
-                if (TransmitTerminationNoneRadio.Checked == true)
-                {
-                    TransmitTerminationCharacter = "";
-                }
-
-                else if (TransmitTerminationCrRadio.Checked == true)
+                if (TransmitTerminationCrRadio.Checked == true)
                 {
                     TransmitTerminationCharacter = "\r";
                 }
@@ -408,7 +459,7 @@ namespace Terminal
 
                 else
                 {
-                    TransmitTerminationCharacter = "";
+                    TransmitTerminationCharacter = "\r";
                 }
             }
 
@@ -427,20 +478,20 @@ namespace Terminal
 
                 // Does the received string contain a Line Feed character and are timestamps enabled?
                 // Yes, add the timestamp to the data.
-                if (TimestampEnabled == true)
+                if (ReceivedDataTimestampEnabled == true)
                 {
                     // Read lines form the buffer until there is no data left.
-                    while(SerialDataPort.BytesToRead != 0 && TimestampEnabled == true)
+                    while(SerialDataPort.BytesToRead != 0 && ReceivedDataTimestampEnabled == true)
                     {
                         // Read a line of data form the reception buffer.
                         ReceivedData = SerialDataPort.ReadLine();
 
                         // Prepend the current time to the received data.
-                        PrintReceivedData(DateTime.Now.ToString("HH:mm:ss", System.Globalization.DateTimeFormatInfo.InvariantInfo) + "\t");
+                        PrintReceivedData(GetCurrentTimeString() + "\t");
 
                         // Is the hex view enabled?
                         // Yes, convert the received data to a hexadecimal string and print it.
-                        if(HexEnabled == true)
+                        if(ReceivedDataHexEnabled == true)
                         {
                             // Convert the received data to a hexadecimal string.
                             ReceivedData = ConvertAsciiStringToHexString(ReceivedData);
@@ -451,7 +502,7 @@ namespace Terminal
 
                         // Is autoscroll enabled?
                         // Yes, scroll to the end of the data.
-                        if (AutoscrollEnabled == true)
+                        if (ReceivedDataAutoscrollEnabled == true)
                         {
                             ReceivedDataTextboxScrollToEnd();
                         }
@@ -465,7 +516,7 @@ namespace Terminal
 
                     // Is the hex view enabled?
                     // Yes, convert the received data to a hexadecimal string and print it.
-                    if (HexEnabled == true)
+                    if (ReceivedDataHexEnabled == true)
                     {
                         // Convert the received data to a hexadecimal string.
                         ReceivedData = ConvertAsciiStringToHexString(ReceivedData);
@@ -476,7 +527,7 @@ namespace Terminal
                     
                     // Is autoscroll enabled?
                     // Yes, scroll to the end of the data.
-                    if (AutoscrollEnabled == true)
+                    if (ReceivedDataAutoscrollEnabled == true)
                     {
                         ReceivedDataTextboxScrollToEnd();
                     }
@@ -520,7 +571,7 @@ namespace Terminal
             }
         }
 
-        private void AutoscrollContextMenuChanged(object sender, EventArgs e)
+        private void ReceivedDataAutoscrollContextMenuChanged(object sender, EventArgs e)
         {
             try
             {
@@ -531,7 +582,7 @@ namespace Terminal
                     ToolStripMenuItem item = (ToolStripMenuItem) sender;
                     ReceivedDataAutoscrollCheckbox.Checked = item.Checked;
 
-                    AutoscrollEnabled = item.Checked;
+                    ReceivedDataAutoscrollEnabled = item.Checked;
                 }
 
                 // No, is the sender a checkbox?
@@ -541,7 +592,7 @@ namespace Terminal
                     CheckBox item = (CheckBox)sender;
                     ReceivedDataAutoscrollContextitem.Checked = item.Checked;
 
-                    AutoscrollEnabled = item.Checked;
+                    ReceivedDataAutoscrollEnabled = item.Checked;
                 }
             }
 
@@ -580,7 +631,7 @@ namespace Terminal
                     ToolStripMenuItem item = (ToolStripMenuItem) sender;
                     ReceivedDataTimestampCheckbox.Checked = item.Checked;
 
-                    TimestampEnabled = item.Checked;
+                    ReceivedDataTimestampEnabled = item.Checked;
                 }
 
                 // No, is the sender a checkbox?
@@ -590,7 +641,7 @@ namespace Terminal
                     CheckBox item = (CheckBox)sender;
                     ReceivedDataTimestampContextItem.Checked = item.Checked;
 
-                    TimestampEnabled = item.Checked;
+                    ReceivedDataTimestampEnabled = item.Checked;
                 }
             }
 
@@ -639,7 +690,7 @@ namespace Terminal
                     ToolStripMenuItem item = (ToolStripMenuItem) sender;
                     ReceivedDataClearOnConnectCheckbox.Checked = item.Checked;
 
-                    ClearOnConnectEnabled = item.Checked;
+                    ReceivedDataClearOnConnectEnabled = item.Checked;
                 }
 
                 // No, is the sender a checkbox?
@@ -649,7 +700,7 @@ namespace Terminal
                     CheckBox item = (CheckBox)sender;
                     ReceivedDataClearOnConnectContextItem.Checked = item.Checked;
 
-                    ClearOnConnectEnabled = item.Checked;
+                    ReceivedDataClearOnConnectEnabled = item.Checked;
                 }
             }
 
@@ -670,7 +721,7 @@ namespace Terminal
                     ToolStripMenuItem item = (ToolStripMenuItem)sender;
                     ReceivedDataHexCheckbox.Checked = item.Checked;
 
-                    HexEnabled = item.Checked;
+                    ReceivedDataHexEnabled = item.Checked;
                 }
 
                 // No, is the sender a checkbox?
@@ -680,13 +731,465 @@ namespace Terminal
                     CheckBox item = (CheckBox)sender;
                     ReceivedDataHexContextItem.Checked = item.Checked;
 
-                    HexEnabled = item.Checked;
+                    ReceivedDataHexEnabled = item.Checked;
                 }
             }
 
             catch (Exception exc)
             {
                 MessageBox.Show("There was an error setting the Hex property:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
+            }
+        }
+
+        private void TransmittedDataAutoscrollChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                // Is the sender an item from a context menu?
+                // Yes, update Autoscroll from the sender's checked property.
+                if (sender is ToolStripMenuItem)
+                {
+                    ToolStripMenuItem item = (ToolStripMenuItem)sender;
+                    TransmittedDataAutoscrollCheckbox.Checked = item.Checked;
+
+                    TransmittedDataAutoscrollEnabled = item.Checked;
+                }
+
+                // No, is the sender a checkbox?
+                // Yes, update Autoscroll from the sender's checked property.
+                else if (sender is CheckBox)
+                {
+                    CheckBox item = (CheckBox)sender;
+                    TransmittedDataAutoscrollContextItem.Checked = item.Checked;
+
+                    TransmittedDataAutoscrollEnabled = item.Checked;
+                }
+            }
+
+
+            catch (Exception exc)
+            {
+                MessageBox.Show("There was an error setting the Autoscroll property:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
+            }
+        }
+
+        private void TransmittedDataClearOnConnectChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                // Is the sender an item from a context menu?
+                // Yes, update Clear on Connect from the sender's checked property.
+                if (sender is ToolStripMenuItem)
+                {
+                    ToolStripMenuItem item = (ToolStripMenuItem)sender;
+                    TransmittedDataClearOnConnectCheckbox.Checked = item.Checked;
+
+                    TransmittedDataClearOnConnectEnabled = item.Checked;
+                }
+
+                // No, is the sender a checkbox?
+                // Yes, update Clear on Connect from the sender's checked property.
+                else if (sender is CheckBox)
+                {
+                    CheckBox item = (CheckBox)sender;
+                    TransmittedDataClearOnConnectContextItem.Checked = item.Checked;
+
+                    TransmittedDataClearOnConnectEnabled = item.Checked;
+                }
+            }
+
+
+            catch (Exception exc)
+            {
+                MessageBox.Show("There was an error setting the Clear on Connect property:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
+            }
+        }
+
+        private void TransmittedDataTimestampChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                // Is the sender an item from a context menu?
+                // Yes, update Timestamp from the sender's checked property.
+                if (sender is ToolStripMenuItem)
+                {
+                    ToolStripMenuItem item = (ToolStripMenuItem)sender;
+                    TransmittedDataTimestampCheckbox.Checked = item.Checked;
+
+                    TransmittedDataTimestampEnabled = item.Checked;
+                }
+
+                // No, is the sender a checkbox?
+                // Yes, update Timestamp from the sender's checked property.
+                else if (sender is CheckBox)
+                {
+                    CheckBox item = (CheckBox)sender;
+                    TransmittedDataTimestampContextItem.Checked = item.Checked;
+
+                    TransmittedDataTimestampEnabled = item.Checked;
+                }
+            }
+
+
+            catch (Exception exc)
+            {
+                MessageBox.Show("There was an error setting the Timestamp property:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
+            }
+        }
+
+        private void TransmitDataMultiLineClearOnSendChanged(object sender, EventArgs e)
+        {
+            // Cast the sender to the toolstrip menu item type to expose it's properties.
+            ToolStripMenuItem item = (ToolStripMenuItem) sender;
+
+            // Update the setting with the new state;
+            TransmitDataMultiLineClearOnSendEnabled = item.Checked;
+        }
+
+        private void TransmitData1ClearOnSendChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                // Cast the sender to the toolstrip menu item type to expose it's properties.
+                ToolStripMenuItem item = (ToolStripMenuItem)sender;
+
+                // Update the setting with the new state;
+                TransmitData1ClearOnSendEnabled = item.Checked;
+            }
+
+            catch (Exception exc)
+            {
+                MessageBox.Show("There was an error setting the Clear on Send property:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
+            }
+        }
+
+        private void TransmitData2ClearOnSendChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                // Cast the sender to the toolstrip menu item type to expose it's properties.
+                ToolStripMenuItem item = (ToolStripMenuItem)sender;
+
+                // Update the setting with the new state;
+                TransmitData2ClearOnSendEnabled = item.Checked;
+            }
+
+            catch (Exception exc)
+            {
+                MessageBox.Show("There was an error setting the Clear on Send property:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
+            }
+        }
+
+        private void TransmitData3ClearOnSendChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                // Cast the sender to the toolstrip menu item type to expose it's properties.
+                ToolStripMenuItem item = (ToolStripMenuItem)sender;
+
+                // Update the setting with the new state;
+                TransmitData3ClearOnSendEnabled = item.Checked;
+            }
+
+            catch (Exception exc)
+            {
+                MessageBox.Show("There was an error setting the Clear on Send property:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
+            }
+        }
+
+        private void TransmitData4ClearOnSendChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                // Cast the sender to the toolstrip menu item type to expose it's properties.
+                ToolStripMenuItem item = (ToolStripMenuItem)sender;
+
+                // Update the setting with the new state;
+                TransmitData4ClearOnSendEnabled = item.Checked;
+            }
+
+            catch (Exception exc)
+            {
+                MessageBox.Show("There was an error setting the Clear on Send property:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
+            }
+        }
+
+        private void TransmitData1HexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                // Is the sender an item from a context menu?
+                // Yes, update Hex from the sender's checked property.
+                if (sender is ToolStripMenuItem)
+                {
+                    ToolStripMenuItem item = (ToolStripMenuItem)sender;
+                    TransmitData1HexCheckbox.Checked = item.Checked;
+
+                    TransmitData1HexEnabled = item.Checked;
+                }
+
+                // No, is the sender a checkbox?
+                // Yes, update Hex from the sender's checked property.
+                else if (sender is CheckBox)
+                {
+                    CheckBox item = (CheckBox)sender;
+                    TransmitData1HexContextItem.Checked = item.Checked;
+
+                    TransmitData1HexEnabled = item.Checked;
+                }
+            }
+
+            catch (Exception exc)
+            {
+                MessageBox.Show("There was an error setting the Hex property:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
+            }
+        }
+
+        private void TransmitData2HexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                // Is the sender an item from a context menu?
+                // Yes, update Hex from the sender's checked property.
+                if (sender is ToolStripMenuItem)
+                {
+                    ToolStripMenuItem item = (ToolStripMenuItem)sender;
+                    TransmitData2HexCheckbox.Checked = item.Checked;
+
+                    TransmitData2HexEnabled = item.Checked;
+                }
+
+                // No, is the sender a checkbox?
+                // Yes, update Hex from the sender's checked property.
+                else if (sender is CheckBox)
+                {
+                    CheckBox item = (CheckBox)sender;
+                    TransmitData2HexContextItem.Checked = item.Checked;
+
+                    TransmitData2HexEnabled = item.Checked;
+                }
+            }
+
+            catch (Exception exc)
+            {
+                MessageBox.Show("There was an error setting the Hex property:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
+            }
+        }
+
+        private void TransmitData3HexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                // Is the sender an item from a context menu?
+                // Yes, update Hex from the sender's checked property.
+                if (sender is ToolStripMenuItem)
+                {
+                    ToolStripMenuItem item = (ToolStripMenuItem)sender;
+                    TransmitData3HexCheckbox.Checked = item.Checked;
+
+                    TransmitData3HexEnabled = item.Checked;
+                }
+
+                // No, is the sender a checkbox?
+                // Yes, update Hex from the sender's checked property.
+                else if (sender is CheckBox)
+                {
+                    CheckBox item = (CheckBox)sender;
+                    TransmitData3HexContextItem.Checked = item.Checked;
+
+                    TransmitData3HexEnabled = item.Checked;
+                }
+            }
+
+            catch (Exception exc)
+            {
+                MessageBox.Show("There was an error setting the Hex property:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
+            }
+        }
+
+        private void TransmitData4HexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                // Is the sender an item from a context menu?
+                // Yes, update Hex from the sender's checked property.
+                if (sender is ToolStripMenuItem)
+                {
+                    ToolStripMenuItem item = (ToolStripMenuItem)sender;
+                    TransmitData4HexCheckbox.Checked = item.Checked;
+
+                    TransmitData4HexEnabled = item.Checked;
+                }
+
+                // No, is the sender a checkbox?
+                // Yes, update Hex from the sender's checked property.
+                else if (sender is CheckBox)
+                {
+                    CheckBox item = (CheckBox)sender;
+                    TransmitData4HexContextItem.Checked = item.Checked;
+
+                    TransmitData4HexEnabled = item.Checked;
+                }
+            }
+
+            catch (Exception exc)
+            {
+                MessageBox.Show("There was an error setting the Hex property:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
+            }
+        }
+
+        private void TransmitDataMultiLineTerminateChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                // Is the sender an item from a context menu?
+                // Yes, update Terminate from the sender's checked property.
+                if (sender is ToolStripMenuItem)
+                {
+                    ToolStripMenuItem item = (ToolStripMenuItem)sender;
+                    TransmitDataMultilineTerminateCheckbox.Checked = item.Checked;
+
+                    TransmitDataMultiLineTerminateEnabled = item.Checked;
+                }
+
+                // No, is the sender a checkbox?
+                // Yes, update Terminate from the sender's checked property.
+                else if (sender is CheckBox)
+                {
+                    CheckBox item = (CheckBox)sender;
+                    TransmitDataMultiLineTerminateContextItem.Checked = item.Checked;
+
+                    TransmitDataMultiLineTerminateEnabled = item.Checked;
+                }
+            }
+
+            catch (Exception exc)
+            {
+                MessageBox.Show("There was an error setting the Terminate property:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
+            }
+        }
+
+        private void TransmitData1TerminateChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                // Is the sender an item from a context menu?
+                // Yes, update Terminate from the sender's checked property.
+                if (sender is ToolStripMenuItem)
+                {
+                    ToolStripMenuItem item = (ToolStripMenuItem)sender;
+                    TransmitData1TerminateCheckbox.Checked = item.Checked;
+
+                    TransmitData1TerminateEnabled = item.Checked;
+                }
+
+                // No, is the sender a checkbox?
+                // Yes, update Terminate from the sender's checked property.
+                else if (sender is CheckBox)
+                {
+                    CheckBox item = (CheckBox)sender;
+                    TransmitData1TerminateContextItem.Checked = item.Checked;
+
+                    TransmitData1TerminateEnabled = item.Checked;
+                }
+            }
+
+            catch (Exception exc)
+            {
+                MessageBox.Show("There was an error setting the Terminate property:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
+            }
+        }
+
+        private void TransmitData2TerminateChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                // Is the sender an item from a context menu?
+                // Yes, update Terminate from the sender's checked property.
+                if (sender is ToolStripMenuItem)
+                {
+                    ToolStripMenuItem item = (ToolStripMenuItem)sender;
+                    TransmitData2TerminateCheckbox.Checked = item.Checked;
+
+                    TransmitData2TerminateEnabled = item.Checked;
+                }
+
+                // No, is the sender a checkbox?
+                // Yes, update Terminate from the sender's checked property.
+                else if (sender is CheckBox)
+                {
+                    CheckBox item = (CheckBox)sender;
+                    TransmitData2TerminateContextItem.Checked = item.Checked;
+
+                    TransmitData2TerminateEnabled = item.Checked;
+                }
+            }
+
+            catch (Exception exc)
+            {
+                MessageBox.Show("There was an error setting the Terminate property:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
+            }
+        }
+
+        private void TransmitData3TerminateChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                // Is the sender an item from a context menu?
+                // Yes, update Terminate from the sender's checked property.
+                if (sender is ToolStripMenuItem)
+                {
+                    ToolStripMenuItem item = (ToolStripMenuItem)sender;
+                    TransmitData3TerminateCheckbox.Checked = item.Checked;
+
+                    TransmitData3TerminateEnabled = item.Checked;
+                }
+
+                // No, is the sender a checkbox?
+                // Yes, update Terminate from the sender's checked property.
+                else if (sender is CheckBox)
+                {
+                    CheckBox item = (CheckBox)sender;
+                    TransmitData3TerminateContextItem.Checked = item.Checked;
+
+                    TransmitData3TerminateEnabled = item.Checked;
+                }
+            }
+
+            catch (Exception exc)
+            {
+                MessageBox.Show("There was an error setting the Terminate property:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
+            }
+        }
+
+        private void TransmitData4TerminateChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                // Is the sender an item from a context menu?
+                // Yes, update Terminate from the sender's checked property.
+                if (sender is ToolStripMenuItem)
+                {
+                    ToolStripMenuItem item = (ToolStripMenuItem)sender;
+                    TransmitData4TerminateCheckbox.Checked = item.Checked;
+
+                    TransmitData4TerminateEnabled = item.Checked;
+                }
+
+                // No, is the sender a checkbox?
+                // Yes, update Terminate from the sender's checked property.
+                else if (sender is CheckBox)
+                {
+                    CheckBox item = (CheckBox)sender;
+                    TransmitData4TerminateContextItem.Checked = item.Checked;
+
+                    TransmitData4TerminateEnabled = item.Checked;
+                }
+            }
+
+            catch (Exception exc)
+            {
+                MessageBox.Show("There was an error setting the Terminate property:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
             }
         }
 
@@ -701,7 +1204,7 @@ namespace Terminal
             // with the text from the setting. Uncheck all other ones.
             foreach (RadioButton Radio in RadiobuttonGroup.Controls)
             {
-                // Is this the readiobutton that was checked at the time the user closed the application?
+                // Is this the readio button that was checked at the time the user closed the application?
                 // Yes, check it again.
                 if (Radio.Text == StringSetting)
                 {
@@ -785,6 +1288,12 @@ namespace Terminal
             {
                 MessageBox.Show("There was an error scrolling to the latest received data:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
             }
+        }
+
+        private string GetCurrentTimeString()
+        {
+            // Return the current time as a string.
+            return(DateTime.Now.ToString("HH:mm:ss", System.Globalization.DateTimeFormatInfo.InvariantInfo));
         }
     }
 }
