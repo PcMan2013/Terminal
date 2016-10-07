@@ -477,6 +477,7 @@
             this.TransmitTerminationCrLfRadio.Name = "TransmitTerminationCrLfRadio";
             this.TransmitTerminationCrLfRadio.Size = new System.Drawing.Size(126, 24);
             this.TransmitTerminationCrLfRadio.TabIndex = 10;
+            this.TransmitTerminationCrLfRadio.Tag = "\\r\\n";
             this.TransmitTerminationCrLfRadio.Text = "CR+LF (\\r\\n)";
             this.TransmitTerminationCrLfRadio.UseVisualStyleBackColor = true;
             this.TransmitTerminationCrLfRadio.CheckedChanged += new System.EventHandler(this.TransmitTerminationChanged);
@@ -489,6 +490,7 @@
             this.TransmitTerminationLfRadio.Name = "TransmitTerminationLfRadio";
             this.TransmitTerminationLfRadio.Size = new System.Drawing.Size(81, 24);
             this.TransmitTerminationLfRadio.TabIndex = 9;
+            this.TransmitTerminationLfRadio.Tag = "\\n";
             this.TransmitTerminationLfRadio.Text = "LF (\\n)";
             this.TransmitTerminationLfRadio.UseVisualStyleBackColor = true;
             this.TransmitTerminationLfRadio.CheckedChanged += new System.EventHandler(this.TransmitTerminationChanged);
@@ -503,6 +505,7 @@
             this.TransmitTerminationCrRadio.Size = new System.Drawing.Size(82, 24);
             this.TransmitTerminationCrRadio.TabIndex = 8;
             this.TransmitTerminationCrRadio.TabStop = true;
+            this.TransmitTerminationCrRadio.Tag = "\\r";
             this.TransmitTerminationCrRadio.Text = "CR (\\r)";
             this.TransmitTerminationCrRadio.UseVisualStyleBackColor = true;
             this.TransmitTerminationCrRadio.CheckedChanged += new System.EventHandler(this.TransmitTerminationChanged);
@@ -603,7 +606,7 @@
             this.ReceivedDataTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ReceivedDataTextBox.ContextMenuStrip = this.ReceivedDataTextBoxContextMenu;
             this.ReceivedDataTextBox.DetectUrls = false;
-            this.ReceivedDataTextBox.Font = new System.Drawing.Font("Monospac821 BT", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ReceivedDataTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ReceivedDataTextBox.Location = new System.Drawing.Point(10, 61);
             this.ReceivedDataTextBox.Name = "ReceivedDataTextBox";
             this.ReceivedDataTextBox.ReadOnly = true;
@@ -629,6 +632,7 @@
             // 
             // ReceivedDataAutoscrollContextitem
             // 
+            this.ReceivedDataAutoscrollContextitem.Checked = global::Terminal.Properties.Settings.Default.ReiceveDataAutoscrollEnabled;
             this.ReceivedDataAutoscrollContextitem.CheckOnClick = true;
             this.ReceivedDataAutoscrollContextitem.Name = "ReceivedDataAutoscrollContextitem";
             this.ReceivedDataAutoscrollContextitem.Size = new System.Drawing.Size(195, 26);
@@ -644,6 +648,7 @@
             // 
             // ReceivedDataClearOnConnectContextItem
             // 
+            this.ReceivedDataClearOnConnectContextItem.Checked = global::Terminal.Properties.Settings.Default.ReceivedDataClearOnConnect;
             this.ReceivedDataClearOnConnectContextItem.CheckOnClick = true;
             this.ReceivedDataClearOnConnectContextItem.Name = "ReceivedDataClearOnConnectContextItem";
             this.ReceivedDataClearOnConnectContextItem.Size = new System.Drawing.Size(195, 26);
@@ -659,6 +664,7 @@
             // 
             // ReceivedDataHexContextItem
             // 
+            this.ReceivedDataHexContextItem.Checked = global::Terminal.Properties.Settings.Default.ReceivedDataHexEnabled;
             this.ReceivedDataHexContextItem.CheckOnClick = true;
             this.ReceivedDataHexContextItem.Name = "ReceivedDataHexContextItem";
             this.ReceivedDataHexContextItem.Size = new System.Drawing.Size(195, 26);
@@ -667,6 +673,7 @@
             // 
             // ReceivedDataTimestampContextItem
             // 
+            this.ReceivedDataTimestampContextItem.Checked = global::Terminal.Properties.Settings.Default.ReceivedDataTimestampEnabled;
             this.ReceivedDataTimestampContextItem.CheckOnClick = true;
             this.ReceivedDataTimestampContextItem.Name = "ReceivedDataTimestampContextItem";
             this.ReceivedDataTimestampContextItem.Size = new System.Drawing.Size(195, 26);
@@ -779,12 +786,14 @@
             // TransmitDataMultilineSendButton
             // 
             this.TransmitDataMultilineSendButton.AutoSize = true;
+            this.TransmitDataMultilineSendButton.Enabled = false;
             this.TransmitDataMultilineSendButton.Location = new System.Drawing.Point(755, 156);
             this.TransmitDataMultilineSendButton.Name = "TransmitDataMultilineSendButton";
             this.TransmitDataMultilineSendButton.Size = new System.Drawing.Size(75, 30);
             this.TransmitDataMultilineSendButton.TabIndex = 30;
             this.TransmitDataMultilineSendButton.Text = "Send";
             this.TransmitDataMultilineSendButton.UseVisualStyleBackColor = true;
+            this.TransmitDataMultilineSendButton.Click += new System.EventHandler(this.TransmitDataMultiLineSend_Click);
             // 
             // TransmitDataMultiLineTextBox
             // 
@@ -832,19 +841,21 @@
             // TransmitData3SendButton
             // 
             this.TransmitData3SendButton.AutoSize = true;
+            this.TransmitData3SendButton.Enabled = false;
             this.TransmitData3SendButton.Location = new System.Drawing.Point(755, 264);
             this.TransmitData3SendButton.Name = "TransmitData3SendButton";
             this.TransmitData3SendButton.Size = new System.Drawing.Size(75, 30);
             this.TransmitData3SendButton.TabIndex = 28;
             this.TransmitData3SendButton.Text = "Send";
             this.TransmitData3SendButton.UseVisualStyleBackColor = true;
+            this.TransmitData3SendButton.Click += new System.EventHandler(this.TransmitData3Send_Click);
             // 
             // TransmitData3TextBox
             // 
             this.TransmitData3TextBox.AcceptsTab = true;
             this.TransmitData3TextBox.AllowDrop = true;
             this.TransmitData3TextBox.ContextMenuStrip = this.TransmitData3ContextMenu;
-            this.TransmitData3TextBox.Location = new System.Drawing.Point(7, 266);
+            this.TransmitData3TextBox.Location = new System.Drawing.Point(9, 266);
             this.TransmitData3TextBox.MaxLength = 4069;
             this.TransmitData3TextBox.Name = "TransmitData3TextBox";
             this.TransmitData3TextBox.Size = new System.Drawing.Size(742, 26);
@@ -866,7 +877,7 @@
             this.TransmitData3ClearOnSendContextItem.Checked = global::Terminal.Properties.Settings.Default.TransmitData3ClearOnSendEnabled;
             this.TransmitData3ClearOnSendContextItem.CheckOnClick = true;
             this.TransmitData3ClearOnSendContextItem.Name = "TransmitData3ClearOnSendContextItem";
-            this.TransmitData3ClearOnSendContextItem.Size = new System.Drawing.Size(181, 26);
+            this.TransmitData3ClearOnSendContextItem.Size = new System.Drawing.Size(174, 26);
             this.TransmitData3ClearOnSendContextItem.Text = "Clear on send";
             this.TransmitData3ClearOnSendContextItem.CheckedChanged += new System.EventHandler(this.TransmitData3ClearOnSendChanged);
             // 
@@ -875,7 +886,7 @@
             this.TransmitData3HexContextItem.Checked = global::Terminal.Properties.Settings.Default.TransmitData3HexEnabled;
             this.TransmitData3HexContextItem.CheckOnClick = true;
             this.TransmitData3HexContextItem.Name = "TransmitData3HexContextItem";
-            this.TransmitData3HexContextItem.Size = new System.Drawing.Size(181, 26);
+            this.TransmitData3HexContextItem.Size = new System.Drawing.Size(174, 26);
             this.TransmitData3HexContextItem.Text = "Hex";
             this.TransmitData3HexContextItem.CheckedChanged += new System.EventHandler(this.TransmitData3HexChanged);
             // 
@@ -884,7 +895,7 @@
             this.TransmitData3TerminateContextItem.Checked = global::Terminal.Properties.Settings.Default.TransmitData3TerminateEnabled;
             this.TransmitData3TerminateContextItem.CheckOnClick = true;
             this.TransmitData3TerminateContextItem.Name = "TransmitData3TerminateContextItem";
-            this.TransmitData3TerminateContextItem.Size = new System.Drawing.Size(181, 26);
+            this.TransmitData3TerminateContextItem.Size = new System.Drawing.Size(174, 26);
             this.TransmitData3TerminateContextItem.Text = "Terminate";
             this.TransmitData3TerminateContextItem.CheckedChanged += new System.EventHandler(this.TransmitData3TerminateChanged);
             // 
@@ -904,19 +915,21 @@
             // TransmitData2SendButton
             // 
             this.TransmitData2SendButton.AutoSize = true;
+            this.TransmitData2SendButton.Enabled = false;
             this.TransmitData2SendButton.Location = new System.Drawing.Point(755, 228);
             this.TransmitData2SendButton.Name = "TransmitData2SendButton";
             this.TransmitData2SendButton.Size = new System.Drawing.Size(75, 30);
             this.TransmitData2SendButton.TabIndex = 25;
             this.TransmitData2SendButton.Text = "Send";
             this.TransmitData2SendButton.UseVisualStyleBackColor = true;
+            this.TransmitData2SendButton.Click += new System.EventHandler(this.TransmitData2Send_Click);
             // 
             // TransmitData2TextBox
             // 
             this.TransmitData2TextBox.AcceptsTab = true;
             this.TransmitData2TextBox.AllowDrop = true;
             this.TransmitData2TextBox.ContextMenuStrip = this.TransmitData2ContextMenu;
-            this.TransmitData2TextBox.Location = new System.Drawing.Point(7, 230);
+            this.TransmitData2TextBox.Location = new System.Drawing.Point(9, 230);
             this.TransmitData2TextBox.MaxLength = 4069;
             this.TransmitData2TextBox.Name = "TransmitData2TextBox";
             this.TransmitData2TextBox.Size = new System.Drawing.Size(742, 26);
@@ -956,7 +969,7 @@
             this.TransmitData2TerminateContextItem.Checked = global::Terminal.Properties.Settings.Default.TransmitData2TerminateEnabled;
             this.TransmitData2TerminateContextItem.CheckOnClick = true;
             this.TransmitData2TerminateContextItem.Name = "TransmitData2TerminateContextItem";
-            this.TransmitData2TerminateContextItem.Size = new System.Drawing.Size(181, 26);
+            this.TransmitData2TerminateContextItem.Size = new System.Drawing.Size(174, 26);
             this.TransmitData2TerminateContextItem.Text = "Terminate";
             this.TransmitData2TerminateContextItem.CheckedChanged += new System.EventHandler(this.TransmitData2TerminateChanged);
             // 
@@ -989,12 +1002,14 @@
             // TransmitData1SendButton
             // 
             this.TransmitData1SendButton.AutoSize = true;
+            this.TransmitData1SendButton.Enabled = false;
             this.TransmitData1SendButton.Location = new System.Drawing.Point(755, 192);
             this.TransmitData1SendButton.Name = "TransmitData1SendButton";
             this.TransmitData1SendButton.Size = new System.Drawing.Size(75, 30);
             this.TransmitData1SendButton.TabIndex = 21;
             this.TransmitData1SendButton.Text = "Send";
             this.TransmitData1SendButton.UseVisualStyleBackColor = true;
+            this.TransmitData1SendButton.Click += new System.EventHandler(this.TransmitData1Send_Click);
             // 
             // TransmitData1TextBox
             // 
@@ -1032,7 +1047,7 @@
             this.TransmitData1HexContextItem.Checked = global::Terminal.Properties.Settings.Default.TransmitData1HexEnabled;
             this.TransmitData1HexContextItem.CheckOnClick = true;
             this.TransmitData1HexContextItem.Name = "TransmitData1HexContextItem";
-            this.TransmitData1HexContextItem.Size = new System.Drawing.Size(181, 26);
+            this.TransmitData1HexContextItem.Size = new System.Drawing.Size(174, 26);
             this.TransmitData1HexContextItem.Text = "Hex";
             this.TransmitData1HexContextItem.CheckedChanged += new System.EventHandler(this.TransmitData1HexChanged);
             // 
@@ -1111,12 +1126,14 @@
             // TransmitData4SendButton
             // 
             this.TransmitData4SendButton.AutoSize = true;
+            this.TransmitData4SendButton.Enabled = false;
             this.TransmitData4SendButton.Location = new System.Drawing.Point(755, 300);
             this.TransmitData4SendButton.Name = "TransmitData4SendButton";
             this.TransmitData4SendButton.Size = new System.Drawing.Size(75, 30);
             this.TransmitData4SendButton.TabIndex = 3;
             this.TransmitData4SendButton.Text = "Send";
             this.TransmitData4SendButton.UseVisualStyleBackColor = true;
+            this.TransmitData4SendButton.Click += new System.EventHandler(this.TransmitData4Send_Click);
             // 
             // TransmitData4TextBox
             // 
@@ -1145,7 +1162,7 @@
             this.TransmitData4ClearOnSendContextItem.Checked = global::Terminal.Properties.Settings.Default.TransmitData4ClearOnSendEnabled;
             this.TransmitData4ClearOnSendContextItem.CheckOnClick = true;
             this.TransmitData4ClearOnSendContextItem.Name = "TransmitData4ClearOnSendContextItem";
-            this.TransmitData4ClearOnSendContextItem.Size = new System.Drawing.Size(181, 26);
+            this.TransmitData4ClearOnSendContextItem.Size = new System.Drawing.Size(174, 26);
             this.TransmitData4ClearOnSendContextItem.Text = "Clear on send";
             this.TransmitData4ClearOnSendContextItem.CheckedChanged += new System.EventHandler(this.TransmitData4ClearOnSendChanged);
             // 
@@ -1154,7 +1171,7 @@
             this.TransmitData4HexContextItem.Checked = global::Terminal.Properties.Settings.Default.TransmitData4HexEnabled;
             this.TransmitData4HexContextItem.CheckOnClick = true;
             this.TransmitData4HexContextItem.Name = "TransmitData4HexContextItem";
-            this.TransmitData4HexContextItem.Size = new System.Drawing.Size(181, 26);
+            this.TransmitData4HexContextItem.Size = new System.Drawing.Size(174, 26);
             this.TransmitData4HexContextItem.Text = "Hex";
             this.TransmitData4HexContextItem.CheckedChanged += new System.EventHandler(this.TransmitData4HexChanged);
             // 
@@ -1163,7 +1180,7 @@
             this.TransmitData4TerminateContextItem.Checked = global::Terminal.Properties.Settings.Default.TransmitData4TerminateEnabled;
             this.TransmitData4TerminateContextItem.CheckOnClick = true;
             this.TransmitData4TerminateContextItem.Name = "TransmitData4TerminateContextItem";
-            this.TransmitData4TerminateContextItem.Size = new System.Drawing.Size(181, 26);
+            this.TransmitData4TerminateContextItem.Size = new System.Drawing.Size(174, 26);
             this.TransmitData4TerminateContextItem.Text = "Terminate";
             this.TransmitData4TerminateContextItem.CheckedChanged += new System.EventHandler(this.TransmitData4TerminateChanged);
             // 
@@ -1172,7 +1189,7 @@
             this.TransmittedDataTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TransmittedDataTextBox.ContextMenuStrip = this.TransmittedDataTextBoxContextMenu;
             this.TransmittedDataTextBox.DetectUrls = false;
-            this.TransmittedDataTextBox.Font = new System.Drawing.Font("Monospac821 BT", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TransmittedDataTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TransmittedDataTextBox.Location = new System.Drawing.Point(6, 336);
             this.TransmittedDataTextBox.Name = "TransmittedDataTextBox";
             this.TransmittedDataTextBox.ReadOnly = true;
@@ -1196,6 +1213,7 @@
             // 
             // TransmittedDataAutoscrollContextItem
             // 
+            this.TransmittedDataAutoscrollContextItem.Checked = global::Terminal.Properties.Settings.Default.TransmittedDataAutoscrollEnabled;
             this.TransmittedDataAutoscrollContextItem.CheckOnClick = true;
             this.TransmittedDataAutoscrollContextItem.Name = "TransmittedDataAutoscrollContextItem";
             this.TransmittedDataAutoscrollContextItem.Size = new System.Drawing.Size(195, 26);
@@ -1210,6 +1228,7 @@
             // 
             // TransmittedDataClearOnConnectContextItem
             // 
+            this.TransmittedDataClearOnConnectContextItem.Checked = global::Terminal.Properties.Settings.Default.TransmittedDataClearOnConnectEnabled;
             this.TransmittedDataClearOnConnectContextItem.CheckOnClick = true;
             this.TransmittedDataClearOnConnectContextItem.Name = "TransmittedDataClearOnConnectContextItem";
             this.TransmittedDataClearOnConnectContextItem.Size = new System.Drawing.Size(195, 26);
@@ -1218,6 +1237,7 @@
             // 
             // TransmittedDataTimestampContextItem
             // 
+            this.TransmittedDataTimestampContextItem.Checked = global::Terminal.Properties.Settings.Default.TransmittedDataTimestampEnabled;
             this.TransmittedDataTimestampContextItem.CheckOnClick = true;
             this.TransmittedDataTimestampContextItem.Name = "TransmittedDataTimestampContextItem";
             this.TransmittedDataTimestampContextItem.Size = new System.Drawing.Size(195, 26);

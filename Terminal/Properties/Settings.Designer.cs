@@ -25,7 +25,7 @@ namespace Terminal.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("\"\\r\"")]
+        [global::System.Configuration.DefaultSettingValueAttribute("CR (\\r)")]
         public string TransmitTerminationCharacter {
             get {
                 return ((string)(this["TransmitTerminationCharacter"]));

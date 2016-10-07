@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="TransmitTerminationCharacter" Type="System.String" Scope="User">
-      <Value Profile="(Default)">"\r"</Value>
+      <Value Profile="(Default)">CR (\r)</Value>
     </Setting>
     <Setting Name="ReiceveDataAutoscrollEnabled" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>

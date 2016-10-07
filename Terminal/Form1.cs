@@ -18,9 +18,7 @@ namespace Terminal
     {
         private bool SerialPortConnected = false;
 
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Form ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Settings ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Received data //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private bool ReceivedDataAutoscrollEnabled = false;
         private bool ReceivedDataTimestampEnabled = false;
@@ -46,8 +44,11 @@ namespace Terminal
         private bool TransmitData4ClearOnSendEnabled = false;
         private bool TransmitDataMultiLineClearOnSendEnabled = false;
     
-        private string TransmitTerminationCharacter = "\r";
+        private string TransmitTerminationString = "\r";
 
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Form ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public SerialTerminal()
         {
             InitializeComponent();
@@ -63,7 +64,6 @@ namespace Terminal
                 RadioButton CheckedRadio = new RadioButton();
 
                 // Import the user settings.
-                TransmitTerminationCharacter            = Settings.Default.TransmitTerminationCharacter;
                 ReceivedDataAutoscrollEnabled           = Settings.Default.ReiceveDataAutoscrollEnabled;
                 ReceivedDataTimestampEnabled            = Settings.Default.ReceivedDataTimestampEnabled;
                 ReceivedDataClearOnConnectEnabled       = Settings.Default.ReceivedDataClearOnConnect;
@@ -89,7 +89,8 @@ namespace Terminal
 
                 // Set all radiobuttons to their stored values and set the baudrate, data bits, parity,
                 // and handshake to the value they were when te application was closed.
-                RestoreRadiobuttonSettings(TransmitTerminationGroup, Settings.Default.TransmitTerminationCharacter);
+                CheckedRadio = RestoreRadiobuttonSettings(TransmitTerminationGroup, Settings.Default.TransmitTerminationCharacter);
+                TransmitTerminationChanged((object)CheckedRadio, new EventArgs());
                 
                 CheckedRadio = RestoreRadiobuttonSettings(BaudGroup, Settings.Default.Baudrate);
                 SerialDataPort.BaudRate = Convert.ToInt32(CheckedRadio.Tag);
@@ -121,7 +122,7 @@ namespace Terminal
                 SerialDataPort.Close();
 
                 // Save the user settings.
-                Settings.Default.TransmitTerminationCharacter           = TransmitTerminationCharacter;
+                Settings.Default.TransmitTerminationCharacter           = TransmitTerminationString;
                 Settings.Default.ReiceveDataAutoscrollEnabled           = ReceivedDataAutoscrollEnabled;
                 Settings.Default.ReceivedDataTimestampEnabled           = ReceivedDataTimestampEnabled;
                 Settings.Default.ReceivedDataClearOnConnect             = ReceivedDataClearOnConnectEnabled;
@@ -223,6 +224,13 @@ namespace Terminal
                         // Enable the COM port list.
                         ComPortDropDown.Enabled = true;
 
+                        // Enable all send buttons.
+                        TransmitDataMultilineSendButton.Enabled = false;
+                        TransmitData1SendButton.Enabled = false;
+                        TransmitData2SendButton.Enabled = false;
+                        TransmitData3SendButton.Enabled = false;
+                        TransmitData4SendButton.Enabled = false;
+
                         SerialPortConnected = false;
                         break;
 
@@ -250,6 +258,13 @@ namespace Terminal
                         // Disable the COM port list.
                         ComPortDropDown.Enabled = false;
 
+                        // Enable all send buttons.
+                        TransmitDataMultilineSendButton.Enabled = true;
+                        TransmitData1SendButton.Enabled = true;
+                        TransmitData2SendButton.Enabled = true;
+                        TransmitData3SendButton.Enabled = true;
+                        TransmitData4SendButton.Enabled = true;
+
                         SerialPortConnected = true;
                         break;
 
@@ -262,6 +277,13 @@ namespace Terminal
 
                         // Enable the COM port list.
                         ComPortDropDown.Enabled = true;
+
+                        // Enable all send buttons.
+                        TransmitDataMultilineSendButton.Enabled = false;
+                        TransmitData1SendButton.Enabled = false;
+                        TransmitData2SendButton.Enabled = false;
+                        TransmitData3SendButton.Enabled = false;
+                        TransmitData4SendButton.Enabled = false;
 
                         SerialPortConnected = false;
                         break;
@@ -444,22 +466,22 @@ namespace Terminal
             {
                 if (TransmitTerminationCrRadio.Checked == true)
                 {
-                    TransmitTerminationCharacter = "\r";
+                    TransmitTerminationString = "\r";
                 }
 
                 else if (TransmitTerminationLfRadio.Checked == true)
                 {
-                    TransmitTerminationCharacter = "\n";
+                    TransmitTerminationString = "\n";
                 }
 
                 else if (TransmitTerminationCrLfRadio.Checked == true)
                 {
-                    TransmitTerminationCharacter = "\r\n";
+                    TransmitTerminationString = "\r\n";
                 }
 
                 else
                 {
-                    TransmitTerminationCharacter = "\r";
+                    TransmitTerminationString = "\r";
                 }
             }
 
@@ -548,6 +570,79 @@ namespace Terminal
                 {
                     MessageBox.Show("There was an error receiving data.\n\n" + exc.Message + "\n\n" + exc.StackTrace);
                 }
+            }
+        }
+
+        private void TransmitDataMultiLineSend_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // When pressing enter and jumping to a new line, \r\n is added to the text.
+                // Search through the text and replace \r\n with TransmitTerminationString.
+
+                // Send the contents of the textbox to the COM port.
+                SendDataToComPort(TransmitDataMultiLineTextBox.Text, false, TransmitDataMultiLineTerminateEnabled, TransmitTerminationString);
+            }
+
+            catch (Exception exc)
+            {
+                MessageBox.Show("There was an error transmitting data:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
+            }
+        }
+
+        private void TransmitData1Send_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Send the contents of the textbox to the COM port.
+                SendDataToComPort(TransmitData1TextBox.Text, TransmitData1HexEnabled, TransmitData1TerminateEnabled, TransmitTerminationString);
+            }
+
+            catch (Exception exc)
+            {
+                MessageBox.Show("There was an error transmitting data:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
+            }
+        }
+
+        private void TransmitData2Send_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Send the contents of the textbox to the COM port.
+                SendDataToComPort(TransmitData2TextBox.Text, TransmitData2HexEnabled, TransmitData2TerminateEnabled, TransmitTerminationString);
+            }
+
+            catch (Exception exc)
+            {
+                MessageBox.Show("There was an error transmitting data:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
+            }
+        }
+
+        private void TransmitData3Send_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Send the contents of the textbox to the COM port.
+                SendDataToComPort(TransmitData3TextBox.Text, TransmitData3HexEnabled, TransmitData3TerminateEnabled, TransmitTerminationString);
+            }
+
+            catch (Exception exc)
+            {
+                MessageBox.Show("There was an error transmitting data:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
+            }
+        }
+
+        private void TransmitData4Send_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Send the contents of the textbox to the COM port.
+                SendDataToComPort(TransmitData4TextBox.Text, TransmitData4HexEnabled, TransmitData4TerminateEnabled, TransmitTerminationString);
+            }
+
+            catch (Exception exc)
+            {
+                MessageBox.Show("There was an error transmitting data:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
             }
         }
 
@@ -1233,7 +1328,12 @@ namespace Terminal
                 // Yes, update the setting.
                 if (Radio.Checked == true)
                 {
-                    Settings.Default[StringSettingName] = Radio.Text;
+                    // Is the settings string valid?
+                    // Yes, update the setting.
+                    if (String.IsNullOrEmpty(StringSettingName) == false)
+                    {
+                        Settings.Default[StringSettingName] = Radio.Text;
+                    }
                 }
             }
         }
@@ -1294,6 +1394,186 @@ namespace Terminal
         {
             // Return the current time as a string.
             return(DateTime.Now.ToString("HH:mm:ss", System.Globalization.DateTimeFormatInfo.InvariantInfo));
+        }
+
+        private void SendDataToComPort(string Data, bool HexEnabled, bool TerminateEnabled, string TerminationString)
+        {
+            try
+            {
+                string SentData = String.Empty;
+                byte[] DataByteArray;
+
+                // Does the data have to be converted to a hex string?
+                // Yes, convert the data and send it to the COM port.
+                if (HexEnabled == true)
+                {
+                    // Keep track of what data has been sent.
+                    SentData = Data;
+
+                    // Remove all space characters.
+                    Data = Data.Replace(" ", String.Empty);
+
+                    // Convert the data to hex string.
+                    DataByteArray = ConvertHexStringToByteArray(Data);
+
+                    // Send the hex data to the COM port.
+                    SerialDataPort.Write(DataByteArray, 0, DataByteArray.Length);
+                }
+
+                // No, just send the data as a string to the COM port.
+                else
+                {
+                    // Keep track of what data has been sent.
+                    SentData = Data;
+
+                    // Send out the data to the COM port.
+                    SerialDataPort.Write(Data);
+                }
+
+                // Does the data have to be terminated?
+                // Yes, send the terminator to the COM port.
+                if (TerminateEnabled == true)
+                {
+                    // Keep track of what data has been sent.
+                    SentData += TerminationString;
+
+                    SerialDataPort.Write(TerminationString);
+                }
+
+                // Do we have to prepend the current time?
+                // Yes, do so.
+                if (TransmittedDataTimestampEnabled == true)
+                {
+                    bool NewLineFound = true;
+                    int NewLineIndex = 0;
+
+                    // Retrieve the current time in string format.
+                    PrintTransmittedData(GetCurrentTimeString() + "\t");
+
+                    // Insert two tabs after each newline so each line is aligned properly with the previous one.
+                    while (NewLineFound == true)
+                    {
+                        // Find the newline.
+                        NewLineIndex = SentData.IndexOf("\r\n", NewLineIndex);
+
+                        // Did we find the newline?
+                        // Yes, insert two tabs after it.
+                        if (NewLineIndex != -1)
+                        {
+                            NewLineIndex += 2;
+                            SentData = SentData.Insert(NewLineIndex, GetCurrentTimeString() + "\t");
+                        }
+
+                        // No, clear the flag to indicate that.
+                        else
+                        {
+                            NewLineFound = false;
+                        }
+                    }
+
+                    // Add the transmitted data to the TransmittedData textbox.
+                    PrintTransmittedData(SentData);
+                }
+
+                // No, just print the sent string.
+                else
+                {
+                    // Add the transmitted data to the TransmittedData textbox.
+                    PrintTransmittedData(SentData);
+                }
+
+                // Is autoscroll enabled?
+                // Yes, scroll to the latest transmitted data.
+                if (TransmittedDataAutoscrollEnabled)
+                {
+                    TransmittedDataScrollToEnd();
+                }
+            }
+
+            catch (Exception exc)
+            {
+                MessageBox.Show("There was an error sending the data to the COM port:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
+            }
+        }
+
+        private void PrintTransmittedData(string InputString)
+        {
+            try
+            {
+                // Add the input string to the transmitted data textbox.
+                TransmittedDataTextBox.Invoke(new MethodInvoker(delegate
+                {
+                    TransmittedDataTextBox.AppendText(InputString);
+                }));
+            }
+
+            catch (Exception exc)
+            {
+                MessageBox.Show("There was an error printing the received data:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
+            }
+        }
+
+        private void TransmittedDataScrollToEnd()
+        {
+            try
+            {
+                TransmittedDataTextBox.Invoke(new MethodInvoker(delegate
+                {
+                    // Set the caret to the end of the text contained in the text box.
+                    TransmittedDataTextBox.SelectionStart = TransmittedDataTextBox.Text.Length;
+
+                    // Scroll to the caret.
+                    TransmittedDataTextBox.ScrollToCaret();
+                }));
+            }
+
+            catch (Exception exc)
+            {
+                MessageBox.Show("There was an error scrolling to the latest transmitted data:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
+            }
+        }
+
+        private byte[] ConvertHexStringToByteArray(string HexInputString)
+        {
+            try
+            {
+                int HexInputStringIndex;
+                int DataStringsIndex = 0;
+
+                // First make sure the string has an even amount of characters.
+                if (HexInputString.Length % 2 == 1)
+                {
+                    HexInputString += "0";
+                }
+
+                // Now it's safe to create the internal arrays because they too will now have an even length.
+                string DataString = String.Empty;
+                byte[] DataByteArray = new byte[HexInputString.Length / 2];
+
+                // Sort the characters of the string into pairs and convert them to hex values.
+                for (HexInputStringIndex = 0; HexInputStringIndex < HexInputString.Length; HexInputStringIndex += 2)
+                {
+                    // Temporarily store the two next characters from the input string.
+                    DataString = HexInputString[HexInputStringIndex].ToString() + HexInputString[HexInputStringIndex + 1].ToString();
+
+                    // Convert the string into hex.
+                    DataByteArray[DataStringsIndex] = (byte) Convert.ToByte(DataString, 16);
+
+                    DataStringsIndex++;
+                }
+
+                return (DataByteArray);
+            }
+
+            catch (Exception exc)
+            {
+                byte[] CatchReturn = new byte[1];
+
+                MessageBox.Show("There was an error converting the hex string to a byte array:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
+
+                // Make sure to always return something.
+                return (CatchReturn);
+            }
         }
     }
 }
