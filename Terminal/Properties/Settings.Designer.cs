@@ -358,5 +358,65 @@ namespace Terminal.Properties {
                 this["TransmitDataMultiLineClearOnSendEnabled"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TransmitDataMultiLineText {
+            get {
+                return ((string)(this["TransmitDataMultiLineText"]));
+            }
+            set {
+                this["TransmitDataMultiLineText"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TransmitData1Text {
+            get {
+                return ((string)(this["TransmitData1Text"]));
+            }
+            set {
+                this["TransmitData1Text"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TransmitData2Text {
+            get {
+                return ((string)(this["TransmitData2Text"]));
+            }
+            set {
+                this["TransmitData2Text"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TransmitData3Text {
+            get {
+                return ((string)(this["TransmitData3Text"]));
+            }
+            set {
+                this["TransmitData3Text"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TransmitData4Text {
+            get {
+                return ((string)(this["TransmitData4Text"]));
+            }
+            set {
+                this["TransmitData4Text"] = value;
+            }
+        }
     }
 }

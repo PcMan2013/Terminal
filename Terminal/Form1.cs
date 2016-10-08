@@ -16,35 +16,35 @@ namespace Terminal
 {
     public partial class SerialTerminal : Form
     {
-        private bool SerialPortConnected = false;
+        private bool SerialPortConnected                    = false;
 
         // Settings ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Received data //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        private bool ReceivedDataAutoscrollEnabled = false;
-        private bool ReceivedDataTimestampEnabled = false;
-        private bool ReceivedDataClearOnConnectEnabled = false;
-        private bool ReceivedDataHexEnabled = false;
+        private bool ReceivedDataAutoscrollEnabled          = false;
+        private bool ReceivedDataTimestampEnabled           = false;
+        private bool ReceivedDataClearOnConnectEnabled      = false;
+        private bool ReceivedDataHexEnabled                 = false;
 
         // Transmitted data ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        private bool TransmittedDataAutoscrollEnabled = false;
-        private bool TransmittedDataTimestampEnabled = false;
-        private bool TransmittedDataClearOnConnectEnabled = false;
-        private bool TransmitData1HexEnabled = false;
-        private bool TransmitData2HexEnabled = false;
-        private bool TransmitData3HexEnabled = false;
-        private bool TransmitData4HexEnabled = false;
-        private bool TransmitData1TerminateEnabled = false;
-        private bool TransmitData2TerminateEnabled = false;
-        private bool TransmitData3TerminateEnabled = false;
-        private bool TransmitData4TerminateEnabled = false;
-        private bool TransmitDataMultiLineTerminateEnabled = false;
-        private bool TransmitData1ClearOnSendEnabled = false;
-        private bool TransmitData2ClearOnSendEnabled = false;
-        private bool TransmitData3ClearOnSendEnabled = false;
-        private bool TransmitData4ClearOnSendEnabled = false;
+        private bool TransmittedDataAutoscrollEnabled       = false;
+        private bool TransmittedDataTimestampEnabled        = false;
+        private bool TransmittedDataClearOnConnectEnabled   = false;
+        private bool TransmitData1HexEnabled                = false;
+        private bool TransmitData2HexEnabled                = false;
+        private bool TransmitData3HexEnabled                = false;
+        private bool TransmitData4HexEnabled                = false;
+        private bool TransmitData1TerminateEnabled          = false;
+        private bool TransmitData2TerminateEnabled          = false;
+        private bool TransmitData3TerminateEnabled          = false;
+        private bool TransmitData4TerminateEnabled          = false;
+        private bool TransmitDataMultiLineTerminateEnabled  = false;
+        private bool TransmitData1ClearOnSendEnabled        = false;
+        private bool TransmitData2ClearOnSendEnabled        = false;
+        private bool TransmitData3ClearOnSendEnabled        = false;
+        private bool TransmitData4ClearOnSendEnabled        = false;
         private bool TransmitDataMultiLineClearOnSendEnabled = false;
     
-        private string TransmitTerminationString = "\r";
+        private string TransmitTerminationString            = "\r";
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Form ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -68,6 +68,7 @@ namespace Terminal
                 ReceivedDataTimestampEnabled            = Settings.Default.ReceivedDataTimestampEnabled;
                 ReceivedDataClearOnConnectEnabled       = Settings.Default.ReceivedDataClearOnConnect;
                 ReceivedDataTextBox.Font                = Settings.Default.SystemFont;
+                TransmittedDataTextBox.Font             = Settings.Default.SystemFont;
                 ReceivedDataHexEnabled                  = Settings.Default.ReceivedDataHexEnabled;
                 TransmittedDataAutoscrollEnabled        = Settings.Default.TransmittedDataAutoscrollEnabled;
                 TransmittedDataTimestampEnabled         = Settings.Default.TransmittedDataTimestampEnabled;
@@ -106,6 +107,13 @@ namespace Terminal
 
                 CheckedRadio = RestoreRadiobuttonSettings(HandshakeGroup, Settings.Default.Handshake);
                 SerialDataPort.Handshake = (Handshake) Convert.ToInt32(CheckedRadio.Tag);
+
+                // Load the contents of the transmit textboxes.
+                TransmitDataMultiLineTextBox.Text = Settings.Default.TransmitDataMultiLineText;
+                TransmitData1TextBox.Text = Settings.Default.TransmitData1Text;
+                TransmitData2TextBox.Text = Settings.Default.TransmitData2Text;
+                TransmitData3TextBox.Text = Settings.Default.TransmitData3Text;
+                TransmitData4TextBox.Text = Settings.Default.TransmitData4Text;
             }
 
             catch (Exception exc)
@@ -153,6 +161,13 @@ namespace Terminal
                 SaveRadiobuttonSettings(StopBitsGroup, "StopBits");
                 SaveRadiobuttonSettings(HandshakeGroup, "Handshake");
                 SaveRadiobuttonSettings(TransmitTerminationGroup, "TransmitTerminationCharacter");
+
+                // Save the contents of the transmit textboxes.
+                Settings.Default.TransmitDataMultiLineText = TransmitDataMultiLineTextBox.Text;
+                Settings.Default.TransmitData1Text = TransmitData1TextBox.Text;
+                Settings.Default.TransmitData2Text = TransmitData2TextBox.Text;
+                Settings.Default.TransmitData3Text = TransmitData3TextBox.Text;
+                Settings.Default.TransmitData4Text = TransmitData4TextBox.Text;
 
                 Settings.Default.Save();
             }
@@ -248,11 +263,18 @@ namespace Terminal
                         // Update the text of the connection button.
                         ComConnectionButton.Text = "Disconnect";
 
-                        // Is Clear on connect enabled?
+                        // Is Clear on connect for received data enabled?
                         // Yes, clear the received data textbox.
                         if (ReceivedDataClearOnConnectEnabled == true)
                         {
-                            ReceivedDataClear_Click(sender, e);
+                            ReceivedDataClear_Click(sender, new EventArgs());
+                        }
+
+                        // Is Clear on connect for transmitted data enabled?
+                        // Yes, clear the transmitted data textbox.
+                        if (TransmittedDataClearOnConnectEnabled == true)
+                        {
+                            TransmittedDataClear_Click(sender, new EventArgs());
                         }
 
                         // Disable the COM port list.
@@ -464,6 +486,8 @@ namespace Terminal
         {
             try
             {
+                // Find out which radio button was checked and set the termination string
+                // accordingly.
                 if (TransmitTerminationCrRadio.Checked == true)
                 {
                     TransmitTerminationString = "\r";
@@ -483,6 +507,8 @@ namespace Terminal
                 {
                     TransmitTerminationString = "\r";
                 }
+
+                SerialDataPort.NewLine = TransmitTerminationString;
             }
 
             catch (Exception exc)
@@ -577,11 +603,26 @@ namespace Terminal
         {
             try
             {
-                // When pressing enter and jumping to a new line, \r\n is added to the text.
-                // Search through the text and replace \r\n with TransmitTerminationString.
+                string Data;
 
-                // Send the contents of the textbox to the COM port.
-                SendDataToComPort(TransmitDataMultiLineTextBox.Text, false, TransmitDataMultiLineTerminateEnabled, TransmitTerminationString);
+                // Is there an active COM connection?
+                // Yes, send the data to the COM port.
+                if (SerialPortConnected == true)
+                {
+                    // When pressing enter and jumping to a new line, \r\n is added to the text.
+                    // Search through the text and replace \r\n with TransmitTerminationString.
+                    Data = TransmitDataMultiLineTextBox.Text.Replace("\r\n", TransmitTerminationString);
+
+                    // Send the contents of the textbox to the COM port.
+                    SendDataToComPort(Data, false, TransmitDataMultiLineTerminateEnabled, TransmitTerminationString);
+
+                    // Is Clear on send enabled for the transmit multiline textbox?
+                    // Yes, clear its contents.
+                    if (TransmitDataMultiLineClearOnSendEnabled == true)
+                    {
+                        TransmitDataMultiLineTextBox.Clear();
+                    }
+                }
             }
 
             catch (Exception exc)
@@ -594,8 +635,20 @@ namespace Terminal
         {
             try
             {
-                // Send the contents of the textbox to the COM port.
-                SendDataToComPort(TransmitData1TextBox.Text, TransmitData1HexEnabled, TransmitData1TerminateEnabled, TransmitTerminationString);
+                // Is there an active COM connection?
+                // Yes, send the data to the COM port.
+                if (SerialPortConnected == true)
+                {
+                    // Send the contents of the textbox to the COM port.
+                    SendDataToComPort(TransmitData1TextBox.Text, TransmitData1HexEnabled, TransmitData1TerminateEnabled, TransmitTerminationString);
+
+                    // Is Clear on send enabled for transmit textbox1?
+                    // Yes, clear its contents.
+                    if (TransmitData1ClearOnSendEnabled == true)
+                    {
+                        TransmitData1TextBox.Clear();
+                    }
+                }
             }
 
             catch (Exception exc)
@@ -608,8 +661,20 @@ namespace Terminal
         {
             try
             {
-                // Send the contents of the textbox to the COM port.
-                SendDataToComPort(TransmitData2TextBox.Text, TransmitData2HexEnabled, TransmitData2TerminateEnabled, TransmitTerminationString);
+                // Is there an active COM connection?
+                // Yes, send the data to the COM port.
+                if (SerialPortConnected == true)
+                {
+                    // Send the contents of the textbox to the COM port.
+                    SendDataToComPort(TransmitData2TextBox.Text, TransmitData2HexEnabled, TransmitData2TerminateEnabled, TransmitTerminationString);
+
+                    // Is Clear on send enabled for transmit textbox2?
+                    // Yes, clear its contents.
+                    if (TransmitData2ClearOnSendEnabled == true)
+                    {
+                        TransmitData2TextBox.Clear();
+                    }
+                }
             }
 
             catch (Exception exc)
@@ -622,8 +687,20 @@ namespace Terminal
         {
             try
             {
-                // Send the contents of the textbox to the COM port.
-                SendDataToComPort(TransmitData3TextBox.Text, TransmitData3HexEnabled, TransmitData3TerminateEnabled, TransmitTerminationString);
+                // Is there an active COM connection?
+                // Yes, send the data to the COM port.
+                if (SerialPortConnected == true)
+                {
+                    // Send the contents of the textbox to the COM port.
+                    SendDataToComPort(TransmitData3TextBox.Text, TransmitData3HexEnabled, TransmitData3TerminateEnabled, TransmitTerminationString);
+
+                    // Is Clear on send enabled for transmit textbox3?
+                    // Yes, clear its contents.
+                    if (TransmitData3ClearOnSendEnabled == true)
+                    {
+                        TransmitData3TextBox.Clear();
+                    }
+                }
             }
 
             catch (Exception exc)
@@ -636,13 +713,72 @@ namespace Terminal
         {
             try
             {
-                // Send the contents of the textbox to the COM port.
-                SendDataToComPort(TransmitData4TextBox.Text, TransmitData4HexEnabled, TransmitData4TerminateEnabled, TransmitTerminationString);
+                // Is there an active COM connection?
+                // Yes, send the data to the COM port.
+                if (SerialPortConnected == true)
+                {
+                    // Send the contents of the textbox to the COM port.
+                    SendDataToComPort(TransmitData4TextBox.Text, TransmitData4HexEnabled, TransmitData4TerminateEnabled, TransmitTerminationString);
+
+                    // Is Clear on send enabled for transmit textbox4?
+                    // Yes, clear its contents.
+                    if (TransmitData4ClearOnSendEnabled == true)
+                    {
+                        TransmitData4TextBox.Clear();
+                    }
+                }
             }
 
             catch (Exception exc)
             {
                 MessageBox.Show("There was an error transmitting data:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
+            }
+        }
+
+        private void TransmitDataMultiLine_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Send the data if CTRL+ENTER is pressed.
+            if (e.KeyData == (Keys.Control | Keys.Enter))
+            {
+                e.SuppressKeyPress = true;
+
+                TransmitDataMultiLineSend_Click(this, new EventArgs());
+            }
+        }
+
+        private void TransmitData1_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Send the data if the enter key is pressed in the textbox.
+            if (e.KeyCode == Keys.Enter)
+            {
+                TransmitData1Send_Click(this, new EventArgs());
+            }
+        }
+
+        private void TransmitData2_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Send the data if the enter key is pressed in the textbox.
+            if (e.KeyCode == Keys.Enter)
+            {
+                TransmitData2Send_Click(this, new EventArgs());
+            }
+        }
+
+        private void TransmitData3_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Send the data if the enter key is pressed in the textbox.
+            if (e.KeyCode == Keys.Enter)
+            {
+                TransmitData3Send_Click(this, new EventArgs());
+            }
+        }
+
+        private void TransmitData4_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Send the data if the enter key is pressed in the textbox.
+            if (e.KeyCode == Keys.Enter)
+            {
+                TransmitData4Send_Click(this, new EventArgs());
             }
         }
 
@@ -663,6 +799,23 @@ namespace Terminal
             catch (Exception exc)
             {
                 MessageBox.Show("There was an error clearing the data.\n\n" + exc.Message + "\n\n" + exc.StackTrace);
+            }
+        }
+
+        private void TransmittedDataClear_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                 // Clear the contents of the rich text box.
+                TransmittedDataTextBox.Invoke(new MethodInvoker(delegate 
+                { 
+                    TransmittedDataTextBox.Clear(); 
+                }));
+            }
+
+            catch (Exception exc)
+            {
+                MessageBox.Show("There was an error clearing the data:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
             }
         }
 
@@ -697,21 +850,22 @@ namespace Terminal
             }
         }
 
-        private void ReceivedDataFont_Click(object sender, EventArgs e)
+        private void SystemFont_Click(object sender, EventArgs e)
         {
             try
             {
                 // Show the Font dialog. Did the user accept the changes?
                 // Yes, update the font of all received data.
-                if (ReceivedDataFontDialog.ShowDialog() != DialogResult.Cancel)
+                if (SystemFontDialog.ShowDialog() != DialogResult.Cancel)
                 {
-                    ReceivedDataTextBox.Font = ReceivedDataFontDialog.Font;
+                    ReceivedDataTextBox.Font = SystemFontDialog.Font;
+                    TransmittedDataTextBox.Font = SystemFontDialog.Font;
                 }
             }
 
             catch (Exception exc)
             {
-                MessageBox.Show("There was an error changing the font:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
+                MessageBox.Show("There was an error changing the system font:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
             }
         }
 
@@ -1448,20 +1602,31 @@ namespace Terminal
                     int NewLineIndex = 0;
 
                     // Retrieve the current time in string format.
-                    PrintTransmittedData(GetCurrentTimeString() + "\t");
+                    SentData = SentData.Insert(0, GetCurrentTimeString() + "\t");
 
                     // Insert two tabs after each newline so each line is aligned properly with the previous one.
                     while (NewLineFound == true)
                     {
                         // Find the newline.
-                        NewLineIndex = SentData.IndexOf("\r\n", NewLineIndex);
+                        NewLineIndex = SentData.IndexOf(TerminationString, NewLineIndex);
 
                         // Did we find the newline?
                         // Yes, insert two tabs after it.
                         if (NewLineIndex != -1)
-                        {
-                            NewLineIndex += 2;
-                            SentData = SentData.Insert(NewLineIndex, GetCurrentTimeString() + "\t");
+                        {   
+                            // Is this the last termination string in the data?
+                            // No, add the time string after it.
+                            if (NewLineIndex != SentData.Length - TerminationString.Length)
+                            {
+                                NewLineIndex += TerminationString.Length;
+                                SentData = SentData.Insert(NewLineIndex, GetCurrentTimeString() + "\t");
+                            }
+                            
+                            // Yes, stop searching.
+                            else
+                            {
+                                NewLineFound = false;
+                            }
                         }
 
                         // No, clear the flag to indicate that.
