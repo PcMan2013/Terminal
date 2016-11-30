@@ -125,6 +125,7 @@
             this.TransmittedDataClearOnConnectContextItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fontToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TransmittedDataTimestampContextItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TerminalNotes = new System.Windows.Forms.TextBox();
             this.ComPortGroup.SuspendLayout();
             this.BaudGroup.SuspendLayout();
             this.DataBitsGroup.SuspendLayout();
@@ -240,6 +241,7 @@
             this.Baudrate115200Radio.Name = "Baudrate115200Radio";
             this.Baudrate115200Radio.Size = new System.Drawing.Size(85, 20);
             this.Baudrate115200Radio.TabIndex = 8;
+            this.Baudrate115200Radio.TabStop = true;
             this.Baudrate115200Radio.Tag = "115200";
             this.Baudrate115200Radio.Text = "115200";
             this.Baudrate115200Radio.UseVisualStyleBackColor = true;
@@ -289,6 +291,7 @@
             this.DataBits8Radio.Name = "DataBits8Radio";
             this.DataBits8Radio.Size = new System.Drawing.Size(50, 20);
             this.DataBits8Radio.TabIndex = 0;
+            this.DataBits8Radio.TabStop = true;
             this.DataBits8Radio.Tag = "8";
             this.DataBits8Radio.Text = "8";
             this.DataBits8Radio.UseVisualStyleBackColor = true;
@@ -359,6 +362,7 @@
             this.ParityNoneRadio.Name = "ParityNoneRadio";
             this.ParityNoneRadio.Size = new System.Drawing.Size(85, 20);
             this.ParityNoneRadio.TabIndex = 0;
+            this.ParityNoneRadio.TabStop = true;
             this.ParityNoneRadio.Tag = "0";
             this.ParityNoneRadio.Text = "None";
             this.ParityNoneRadio.UseVisualStyleBackColor = true;
@@ -409,6 +413,7 @@
             this.StopBitsOneRadio.Name = "StopBitsOneRadio";
             this.StopBitsOneRadio.Size = new System.Drawing.Size(50, 20);
             this.StopBitsOneRadio.TabIndex = 0;
+            this.StopBitsOneRadio.TabStop = true;
             this.StopBitsOneRadio.Tag = "1";
             this.StopBitsOneRadio.Text = "1";
             this.StopBitsOneRadio.UseVisualStyleBackColor = true;
@@ -422,6 +427,7 @@
             this.HandshakeNoneRadio.Name = "HandshakeNoneRadio";
             this.HandshakeNoneRadio.Size = new System.Drawing.Size(100, 20);
             this.HandshakeNoneRadio.TabIndex = 0;
+            this.HandshakeNoneRadio.TabStop = true;
             this.HandshakeNoneRadio.Tag = "0";
             this.HandshakeNoneRadio.Text = "None";
             this.HandshakeNoneRadio.UseVisualStyleBackColor = true;
@@ -501,6 +507,7 @@
             this.TransmitTerminationCrRadio.Name = "TransmitTerminationCrRadio";
             this.TransmitTerminationCrRadio.Size = new System.Drawing.Size(82, 24);
             this.TransmitTerminationCrRadio.TabIndex = 0;
+            this.TransmitTerminationCrRadio.TabStop = true;
             this.TransmitTerminationCrRadio.Tag = "\\r";
             this.TransmitTerminationCrRadio.Text = "CR (\\r)";
             this.TransmitTerminationCrRadio.UseVisualStyleBackColor = true;
@@ -1268,11 +1275,20 @@
             this.TransmittedDataTimestampContextItem.Text = "Timestamp";
             this.TransmittedDataTimestampContextItem.CheckedChanged += new System.EventHandler(this.TransmittedDataTimestampChanged);
             // 
+            // TerminalNotes
+            // 
+            this.TerminalNotes.Location = new System.Drawing.Point(875, 13);
+            this.TerminalNotes.Multiline = true;
+            this.TerminalNotes.Name = "TerminalNotes";
+            this.TerminalNotes.Size = new System.Drawing.Size(146, 137);
+            this.TerminalNotes.TabIndex = 13;
+            // 
             // SerialTerminal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1032, 1006);
+            this.Controls.Add(this.TerminalNotes);
             this.Controls.Add(this.TransmitDataGroup);
             this.Controls.Add(this.ReceiveDataGroup);
             this.Controls.Add(this.TransmitTerminationGroup);
@@ -1288,7 +1304,7 @@
             this.MaximizeBox = false;
             this.Name = "SerialTerminal";
             this.ShowIcon = false;
-            this.Text = "Serial Terminal";
+            this.Text = "Serial Terminal V1.0.1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SerialTerminal_FormClosing);
             this.Load += new System.EventHandler(this.SerialTerminal_FormLoad);
             this.ComPortGroup.ResumeLayout(false);
@@ -1311,6 +1327,7 @@
             this.TransmitData4ContextMenu.ResumeLayout(false);
             this.TransmittedDataTextBoxContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -1412,6 +1429,7 @@
         private System.Windows.Forms.ToolStripMenuItem TransmitData4TerminateContextItem;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.ToolStripMenuItem fontToolStripMenuItem;
+        private System.Windows.Forms.TextBox TerminalNotes;
 
     }
 }

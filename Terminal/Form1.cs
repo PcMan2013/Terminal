@@ -16,6 +16,8 @@ namespace Terminal
 {
     public partial class SerialTerminal : Form
     {
+        // V1.0.1
+
         private bool SerialPortConnected                    = false;
 
         // Settings ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
