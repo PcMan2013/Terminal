@@ -101,5 +101,11 @@
     <Setting Name="TransmitData4Text" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="BaudrateCustomChecked" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="BaudrateCustom" Type="System.String" Scope="User">
+      <Value Profile="(Default)">115200</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

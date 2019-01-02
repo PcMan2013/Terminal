@@ -34,6 +34,8 @@
             this.ComPortGroup = new System.Windows.Forms.GroupBox();
             this.ComConnectionButton = new System.Windows.Forms.Button();
             this.BaudGroup = new System.Windows.Forms.GroupBox();
+            this.BaudrateCustomTextbox = new System.Windows.Forms.TextBox();
+            this.BaudrateCustomRadio = new System.Windows.Forms.RadioButton();
             this.Baudrate57600Radio = new System.Windows.Forms.RadioButton();
             this.Baudrate14400Radio = new System.Windows.Forms.RadioButton();
             this.Baudrate115200Radio = new System.Windows.Forms.RadioButton();
@@ -195,6 +197,8 @@
             // 
             // BaudGroup
             // 
+            this.BaudGroup.Controls.Add(this.BaudrateCustomTextbox);
+            this.BaudGroup.Controls.Add(this.BaudrateCustomRadio);
             this.BaudGroup.Controls.Add(this.Baudrate57600Radio);
             this.BaudGroup.Controls.Add(this.Baudrate14400Radio);
             this.BaudGroup.Controls.Add(this.Baudrate115200Radio);
@@ -204,10 +208,33 @@
             this.BaudGroup.Margin = new System.Windows.Forms.Padding(5);
             this.BaudGroup.Name = "BaudGroup";
             this.BaudGroup.Padding = new System.Windows.Forms.Padding(0);
-            this.BaudGroup.Size = new System.Drawing.Size(100, 140);
+            this.BaudGroup.Size = new System.Drawing.Size(204, 140);
             this.BaudGroup.TabIndex = 3;
             this.BaudGroup.TabStop = false;
             this.BaudGroup.Text = "Baudrate";
+            // 
+            // BaudrateCustomTextbox
+            // 
+            this.BaudrateCustomTextbox.Location = new System.Drawing.Point(105, 42);
+            this.BaudrateCustomTextbox.Margin = new System.Windows.Forms.Padding(5);
+            this.BaudrateCustomTextbox.MaxLength = 7;
+            this.BaudrateCustomTextbox.Name = "BaudrateCustomTextbox";
+            this.BaudrateCustomTextbox.Size = new System.Drawing.Size(94, 26);
+            this.BaudrateCustomTextbox.TabIndex = 10;
+            this.BaudrateCustomTextbox.TextChanged += new System.EventHandler(this.BaudrateCustomTextboxChanged);
+            this.BaudrateCustomTextbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.BaudrateCustomTextboxKeyPress);
+            // 
+            // BaudrateCustomRadio
+            // 
+            this.BaudrateCustomRadio.Location = new System.Drawing.Point(105, 20);
+            this.BaudrateCustomRadio.Margin = new System.Windows.Forms.Padding(5, 10, 5, 10);
+            this.BaudrateCustomRadio.Name = "BaudrateCustomRadio";
+            this.BaudrateCustomRadio.Size = new System.Drawing.Size(94, 22);
+            this.BaudrateCustomRadio.TabIndex = 9;
+            this.BaudrateCustomRadio.Tag = "Custom";
+            this.BaudrateCustomRadio.Text = "Custom";
+            this.BaudrateCustomRadio.UseVisualStyleBackColor = true;
+            this.BaudrateCustomRadio.CheckedChanged += new System.EventHandler(this.BaudrateChanged);
             // 
             // Baudrate57600Radio
             // 
@@ -274,11 +301,11 @@
             // DataBitsGroup
             // 
             this.DataBitsGroup.Controls.Add(this.DataBits8Radio);
-            this.DataBitsGroup.Location = new System.Drawing.Point(244, 10);
+            this.DataBitsGroup.Location = new System.Drawing.Point(453, 10);
             this.DataBitsGroup.Margin = new System.Windows.Forms.Padding(5);
             this.DataBitsGroup.Name = "DataBitsGroup";
             this.DataBitsGroup.Padding = new System.Windows.Forms.Padding(0);
-            this.DataBitsGroup.Size = new System.Drawing.Size(94, 140);
+            this.DataBitsGroup.Size = new System.Drawing.Size(95, 52);
             this.DataBitsGroup.TabIndex = 5;
             this.DataBitsGroup.TabStop = false;
             this.DataBitsGroup.Text = "Data Bits";
@@ -384,11 +411,11 @@
             // 
             this.StopBitsGroup.Controls.Add(this.StopBitsTwoRadio);
             this.StopBitsGroup.Controls.Add(this.StopBitsOneRadio);
-            this.StopBitsGroup.Location = new System.Drawing.Point(453, 10);
+            this.StopBitsGroup.Location = new System.Drawing.Point(453, 72);
             this.StopBitsGroup.Margin = new System.Windows.Forms.Padding(5);
             this.StopBitsGroup.Name = "StopBitsGroup";
             this.StopBitsGroup.Padding = new System.Windows.Forms.Padding(0);
-            this.StopBitsGroup.Size = new System.Drawing.Size(95, 140);
+            this.StopBitsGroup.Size = new System.Drawing.Size(95, 78);
             this.StopBitsGroup.TabIndex = 7;
             this.StopBitsGroup.TabStop = false;
             this.StopBitsGroup.Text = "Stop Bits";
@@ -631,21 +658,21 @@
             this.ReceivedDataTextBoxContextMenu.Name = "ReceivedDataTextBoxContextMenu";
             this.ReceivedDataTextBoxContextMenu.ShowCheckMargin = true;
             this.ReceivedDataTextBoxContextMenu.ShowImageMargin = false;
-            this.ReceivedDataTextBoxContextMenu.Size = new System.Drawing.Size(196, 160);
+            this.ReceivedDataTextBoxContextMenu.Size = new System.Drawing.Size(190, 148);
             // 
             // ReceivedDataAutoscrollContextitem
             // 
             this.ReceivedDataAutoscrollContextitem.Checked = global::Terminal.Properties.Settings.Default.ReiceveDataAutoscrollEnabled;
             this.ReceivedDataAutoscrollContextitem.CheckOnClick = true;
             this.ReceivedDataAutoscrollContextitem.Name = "ReceivedDataAutoscrollContextitem";
-            this.ReceivedDataAutoscrollContextitem.Size = new System.Drawing.Size(195, 26);
+            this.ReceivedDataAutoscrollContextitem.Size = new System.Drawing.Size(189, 24);
             this.ReceivedDataAutoscrollContextitem.Text = "Autoscroll";
             this.ReceivedDataAutoscrollContextitem.CheckedChanged += new System.EventHandler(this.ReceivedDataAutoscrollContextMenuChanged);
             // 
             // ReceivedDataClearContextItem
             // 
             this.ReceivedDataClearContextItem.Name = "ReceivedDataClearContextItem";
-            this.ReceivedDataClearContextItem.Size = new System.Drawing.Size(195, 26);
+            this.ReceivedDataClearContextItem.Size = new System.Drawing.Size(189, 24);
             this.ReceivedDataClearContextItem.Text = "Clear";
             this.ReceivedDataClearContextItem.Click += new System.EventHandler(this.ReceivedDataClear_Click);
             // 
@@ -654,14 +681,14 @@
             this.ReceivedDataClearOnConnectContextItem.Checked = global::Terminal.Properties.Settings.Default.ReceivedDataClearOnConnect;
             this.ReceivedDataClearOnConnectContextItem.CheckOnClick = true;
             this.ReceivedDataClearOnConnectContextItem.Name = "ReceivedDataClearOnConnectContextItem";
-            this.ReceivedDataClearOnConnectContextItem.Size = new System.Drawing.Size(195, 26);
+            this.ReceivedDataClearOnConnectContextItem.Size = new System.Drawing.Size(189, 24);
             this.ReceivedDataClearOnConnectContextItem.Text = "Clear on connect";
             this.ReceivedDataClearOnConnectContextItem.CheckedChanged += new System.EventHandler(this.ReceivedDataClearOnconnect_Changed);
             // 
             // ReceivedDataFontContextItem
             // 
             this.ReceivedDataFontContextItem.Name = "ReceivedDataFontContextItem";
-            this.ReceivedDataFontContextItem.Size = new System.Drawing.Size(195, 26);
+            this.ReceivedDataFontContextItem.Size = new System.Drawing.Size(189, 24);
             this.ReceivedDataFontContextItem.Text = "Font";
             this.ReceivedDataFontContextItem.Click += new System.EventHandler(this.SystemFont_Click);
             // 
@@ -670,7 +697,7 @@
             this.ReceivedDataHexContextItem.Checked = global::Terminal.Properties.Settings.Default.ReceivedDataHexEnabled;
             this.ReceivedDataHexContextItem.CheckOnClick = true;
             this.ReceivedDataHexContextItem.Name = "ReceivedDataHexContextItem";
-            this.ReceivedDataHexContextItem.Size = new System.Drawing.Size(195, 26);
+            this.ReceivedDataHexContextItem.Size = new System.Drawing.Size(189, 24);
             this.ReceivedDataHexContextItem.Text = "Hex";
             this.ReceivedDataHexContextItem.CheckedChanged += new System.EventHandler(this.ReceivedDataHexChanged);
             // 
@@ -679,7 +706,7 @@
             this.ReceivedDataTimestampContextItem.Checked = global::Terminal.Properties.Settings.Default.ReceivedDataTimestampEnabled;
             this.ReceivedDataTimestampContextItem.CheckOnClick = true;
             this.ReceivedDataTimestampContextItem.Name = "ReceivedDataTimestampContextItem";
-            this.ReceivedDataTimestampContextItem.Size = new System.Drawing.Size(195, 26);
+            this.ReceivedDataTimestampContextItem.Size = new System.Drawing.Size(189, 24);
             this.ReceivedDataTimestampContextItem.Text = "Timestamp";
             this.ReceivedDataTimestampContextItem.CheckedChanged += new System.EventHandler(this.ReceivedDataTimestampChanged);
             // 
@@ -835,14 +862,14 @@
             this.TransmitDataMultiLineClearOnSendContextItem,
             this.TransmitDataMultiLineTerminateContextItem});
             this.TransmitDataMultiLineContextMenu.Name = "TransmitDataMultiLineContextMenu";
-            this.TransmitDataMultiLineContextMenu.Size = new System.Drawing.Size(175, 56);
+            this.TransmitDataMultiLineContextMenu.Size = new System.Drawing.Size(169, 52);
             // 
             // TransmitDataMultiLineClearOnSendContextItem
             // 
             this.TransmitDataMultiLineClearOnSendContextItem.Checked = global::Terminal.Properties.Settings.Default.TransmitDataMultiLineClearOnSendEnabled;
             this.TransmitDataMultiLineClearOnSendContextItem.CheckOnClick = true;
             this.TransmitDataMultiLineClearOnSendContextItem.Name = "TransmitDataMultiLineClearOnSendContextItem";
-            this.TransmitDataMultiLineClearOnSendContextItem.Size = new System.Drawing.Size(174, 26);
+            this.TransmitDataMultiLineClearOnSendContextItem.Size = new System.Drawing.Size(168, 24);
             this.TransmitDataMultiLineClearOnSendContextItem.Text = "Clear on send";
             this.TransmitDataMultiLineClearOnSendContextItem.CheckedChanged += new System.EventHandler(this.TransmitDataMultiLineClearOnSendChanged);
             // 
@@ -851,7 +878,7 @@
             this.TransmitDataMultiLineTerminateContextItem.Checked = global::Terminal.Properties.Settings.Default.TransmitDataMultiLineTerminateEnabled;
             this.TransmitDataMultiLineTerminateContextItem.CheckOnClick = true;
             this.TransmitDataMultiLineTerminateContextItem.Name = "TransmitDataMultiLineTerminateContextItem";
-            this.TransmitDataMultiLineTerminateContextItem.Size = new System.Drawing.Size(174, 26);
+            this.TransmitDataMultiLineTerminateContextItem.Size = new System.Drawing.Size(168, 24);
             this.TransmitDataMultiLineTerminateContextItem.Text = "Terminate";
             this.TransmitDataMultiLineTerminateContextItem.CheckedChanged += new System.EventHandler(this.TransmitDataMultiLineTerminateChanged);
             // 
@@ -888,14 +915,14 @@
             this.TransmitData3HexContextItem,
             this.TransmitData3TerminateContextItem});
             this.TransmitData3ContextMenu.Name = "TransmitDataMultiLineContextMenu";
-            this.TransmitData3ContextMenu.Size = new System.Drawing.Size(175, 82);
+            this.TransmitData3ContextMenu.Size = new System.Drawing.Size(169, 76);
             // 
             // TransmitData3ClearOnSendContextItem
             // 
             this.TransmitData3ClearOnSendContextItem.Checked = global::Terminal.Properties.Settings.Default.TransmitData3ClearOnSendEnabled;
             this.TransmitData3ClearOnSendContextItem.CheckOnClick = true;
             this.TransmitData3ClearOnSendContextItem.Name = "TransmitData3ClearOnSendContextItem";
-            this.TransmitData3ClearOnSendContextItem.Size = new System.Drawing.Size(174, 26);
+            this.TransmitData3ClearOnSendContextItem.Size = new System.Drawing.Size(168, 24);
             this.TransmitData3ClearOnSendContextItem.Text = "Clear on send";
             this.TransmitData3ClearOnSendContextItem.CheckedChanged += new System.EventHandler(this.TransmitData3ClearOnSendChanged);
             // 
@@ -904,7 +931,7 @@
             this.TransmitData3HexContextItem.Checked = global::Terminal.Properties.Settings.Default.TransmitData3HexEnabled;
             this.TransmitData3HexContextItem.CheckOnClick = true;
             this.TransmitData3HexContextItem.Name = "TransmitData3HexContextItem";
-            this.TransmitData3HexContextItem.Size = new System.Drawing.Size(174, 26);
+            this.TransmitData3HexContextItem.Size = new System.Drawing.Size(168, 24);
             this.TransmitData3HexContextItem.Text = "Hex";
             this.TransmitData3HexContextItem.CheckedChanged += new System.EventHandler(this.TransmitData3HexChanged);
             // 
@@ -913,7 +940,7 @@
             this.TransmitData3TerminateContextItem.Checked = global::Terminal.Properties.Settings.Default.TransmitData3TerminateEnabled;
             this.TransmitData3TerminateContextItem.CheckOnClick = true;
             this.TransmitData3TerminateContextItem.Name = "TransmitData3TerminateContextItem";
-            this.TransmitData3TerminateContextItem.Size = new System.Drawing.Size(174, 26);
+            this.TransmitData3TerminateContextItem.Size = new System.Drawing.Size(168, 24);
             this.TransmitData3TerminateContextItem.Text = "Terminate";
             this.TransmitData3TerminateContextItem.CheckedChanged += new System.EventHandler(this.TransmitData3TerminateChanged);
             // 
@@ -963,14 +990,14 @@
             this.TransmitData2HexContextItem,
             this.TransmitData2TerminateContextItem});
             this.TransmitData2ContextMenu.Name = "TransmitDataMultiLineContextMenu";
-            this.TransmitData2ContextMenu.Size = new System.Drawing.Size(175, 82);
+            this.TransmitData2ContextMenu.Size = new System.Drawing.Size(169, 76);
             // 
             // TransmitData2ClearOnSendContextItem
             // 
             this.TransmitData2ClearOnSendContextItem.Checked = global::Terminal.Properties.Settings.Default.TransmitData2ClearOnSendEnabled;
             this.TransmitData2ClearOnSendContextItem.CheckOnClick = true;
             this.TransmitData2ClearOnSendContextItem.Name = "TransmitData2ClearOnSendContextItem";
-            this.TransmitData2ClearOnSendContextItem.Size = new System.Drawing.Size(174, 26);
+            this.TransmitData2ClearOnSendContextItem.Size = new System.Drawing.Size(168, 24);
             this.TransmitData2ClearOnSendContextItem.Text = "Clear on send";
             this.TransmitData2ClearOnSendContextItem.CheckedChanged += new System.EventHandler(this.TransmitData2ClearOnSendChanged);
             // 
@@ -979,7 +1006,7 @@
             this.TransmitData2HexContextItem.Checked = global::Terminal.Properties.Settings.Default.TransmitData2HexEnabled;
             this.TransmitData2HexContextItem.CheckOnClick = true;
             this.TransmitData2HexContextItem.Name = "TransmitData2HexContextItem";
-            this.TransmitData2HexContextItem.Size = new System.Drawing.Size(174, 26);
+            this.TransmitData2HexContextItem.Size = new System.Drawing.Size(168, 24);
             this.TransmitData2HexContextItem.Text = "Hex";
             this.TransmitData2HexContextItem.CheckedChanged += new System.EventHandler(this.TransmitData2HexChanged);
             // 
@@ -988,7 +1015,7 @@
             this.TransmitData2TerminateContextItem.Checked = global::Terminal.Properties.Settings.Default.TransmitData2TerminateEnabled;
             this.TransmitData2TerminateContextItem.CheckOnClick = true;
             this.TransmitData2TerminateContextItem.Name = "TransmitData2TerminateContextItem";
-            this.TransmitData2TerminateContextItem.Size = new System.Drawing.Size(174, 26);
+            this.TransmitData2TerminateContextItem.Size = new System.Drawing.Size(168, 24);
             this.TransmitData2TerminateContextItem.Text = "Terminate";
             this.TransmitData2TerminateContextItem.CheckedChanged += new System.EventHandler(this.TransmitData2TerminateChanged);
             // 
@@ -1051,14 +1078,14 @@
             this.TransmitData1HexContextItem,
             this.TransmitData1TerminateContextItem});
             this.TransmitData1ContextMenu.Name = "TransmitDataMultiLineContextMenu";
-            this.TransmitData1ContextMenu.Size = new System.Drawing.Size(175, 82);
+            this.TransmitData1ContextMenu.Size = new System.Drawing.Size(169, 76);
             // 
             // TransmitData1ClearOnSendContextItem
             // 
             this.TransmitData1ClearOnSendContextItem.Checked = global::Terminal.Properties.Settings.Default.TransmitData1ClearOnSendEnabled;
             this.TransmitData1ClearOnSendContextItem.CheckOnClick = true;
             this.TransmitData1ClearOnSendContextItem.Name = "TransmitData1ClearOnSendContextItem";
-            this.TransmitData1ClearOnSendContextItem.Size = new System.Drawing.Size(174, 26);
+            this.TransmitData1ClearOnSendContextItem.Size = new System.Drawing.Size(168, 24);
             this.TransmitData1ClearOnSendContextItem.Text = "Clear on send";
             this.TransmitData1ClearOnSendContextItem.CheckedChanged += new System.EventHandler(this.TransmitData1ClearOnSendChanged);
             // 
@@ -1067,7 +1094,7 @@
             this.TransmitData1HexContextItem.Checked = global::Terminal.Properties.Settings.Default.TransmitData1HexEnabled;
             this.TransmitData1HexContextItem.CheckOnClick = true;
             this.TransmitData1HexContextItem.Name = "TransmitData1HexContextItem";
-            this.TransmitData1HexContextItem.Size = new System.Drawing.Size(174, 26);
+            this.TransmitData1HexContextItem.Size = new System.Drawing.Size(168, 24);
             this.TransmitData1HexContextItem.Text = "Hex";
             this.TransmitData1HexContextItem.CheckedChanged += new System.EventHandler(this.TransmitData1HexChanged);
             // 
@@ -1076,7 +1103,7 @@
             this.TransmitData1TerminateContextItem.Checked = global::Terminal.Properties.Settings.Default.TransmitData1TerminateEnabled;
             this.TransmitData1TerminateContextItem.CheckOnClick = true;
             this.TransmitData1TerminateContextItem.Name = "TransmitData1TerminateContextItem";
-            this.TransmitData1TerminateContextItem.Size = new System.Drawing.Size(174, 26);
+            this.TransmitData1TerminateContextItem.Size = new System.Drawing.Size(168, 24);
             this.TransmitData1TerminateContextItem.Text = "Terminate";
             this.TransmitData1TerminateContextItem.CheckedChanged += new System.EventHandler(this.TransmitData1TerminateChanged);
             // 
@@ -1177,14 +1204,14 @@
             this.TransmitData4HexContextItem,
             this.TransmitData4TerminateContextItem});
             this.TransmitData4ContextMenu.Name = "TransmitDataMultiLineContextMenu";
-            this.TransmitData4ContextMenu.Size = new System.Drawing.Size(175, 82);
+            this.TransmitData4ContextMenu.Size = new System.Drawing.Size(169, 76);
             // 
             // TransmitData4ClearOnSendContextItem
             // 
             this.TransmitData4ClearOnSendContextItem.Checked = global::Terminal.Properties.Settings.Default.TransmitData4ClearOnSendEnabled;
             this.TransmitData4ClearOnSendContextItem.CheckOnClick = true;
             this.TransmitData4ClearOnSendContextItem.Name = "TransmitData4ClearOnSendContextItem";
-            this.TransmitData4ClearOnSendContextItem.Size = new System.Drawing.Size(174, 26);
+            this.TransmitData4ClearOnSendContextItem.Size = new System.Drawing.Size(168, 24);
             this.TransmitData4ClearOnSendContextItem.Text = "Clear on send";
             this.TransmitData4ClearOnSendContextItem.CheckedChanged += new System.EventHandler(this.TransmitData4ClearOnSendChanged);
             // 
@@ -1193,7 +1220,7 @@
             this.TransmitData4HexContextItem.Checked = global::Terminal.Properties.Settings.Default.TransmitData4HexEnabled;
             this.TransmitData4HexContextItem.CheckOnClick = true;
             this.TransmitData4HexContextItem.Name = "TransmitData4HexContextItem";
-            this.TransmitData4HexContextItem.Size = new System.Drawing.Size(174, 26);
+            this.TransmitData4HexContextItem.Size = new System.Drawing.Size(168, 24);
             this.TransmitData4HexContextItem.Text = "Hex";
             this.TransmitData4HexContextItem.CheckedChanged += new System.EventHandler(this.TransmitData4HexChanged);
             // 
@@ -1202,7 +1229,7 @@
             this.TransmitData4TerminateContextItem.Checked = global::Terminal.Properties.Settings.Default.TransmitData4TerminateEnabled;
             this.TransmitData4TerminateContextItem.CheckOnClick = true;
             this.TransmitData4TerminateContextItem.Name = "TransmitData4TerminateContextItem";
-            this.TransmitData4TerminateContextItem.Size = new System.Drawing.Size(174, 26);
+            this.TransmitData4TerminateContextItem.Size = new System.Drawing.Size(168, 24);
             this.TransmitData4TerminateContextItem.Text = "Terminate";
             this.TransmitData4TerminateContextItem.CheckedChanged += new System.EventHandler(this.TransmitData4TerminateChanged);
             // 
@@ -1232,21 +1259,21 @@
             this.TransmittedDataTextBoxContextMenu.Name = "TransmittedDataTextBoxContextMenu";
             this.TransmittedDataTextBoxContextMenu.ShowCheckMargin = true;
             this.TransmittedDataTextBoxContextMenu.ShowImageMargin = false;
-            this.TransmittedDataTextBoxContextMenu.Size = new System.Drawing.Size(196, 134);
+            this.TransmittedDataTextBoxContextMenu.Size = new System.Drawing.Size(190, 124);
             // 
             // TransmittedDataAutoscrollContextItem
             // 
             this.TransmittedDataAutoscrollContextItem.Checked = global::Terminal.Properties.Settings.Default.TransmittedDataAutoscrollEnabled;
             this.TransmittedDataAutoscrollContextItem.CheckOnClick = true;
             this.TransmittedDataAutoscrollContextItem.Name = "TransmittedDataAutoscrollContextItem";
-            this.TransmittedDataAutoscrollContextItem.Size = new System.Drawing.Size(195, 26);
+            this.TransmittedDataAutoscrollContextItem.Size = new System.Drawing.Size(189, 24);
             this.TransmittedDataAutoscrollContextItem.Text = "Autoscroll";
             this.TransmittedDataAutoscrollContextItem.CheckedChanged += new System.EventHandler(this.TransmittedDataAutoscrollChanged);
             // 
             // TransmittedDataClearContextitem
             // 
             this.TransmittedDataClearContextitem.Name = "TransmittedDataClearContextitem";
-            this.TransmittedDataClearContextitem.Size = new System.Drawing.Size(195, 26);
+            this.TransmittedDataClearContextitem.Size = new System.Drawing.Size(189, 24);
             this.TransmittedDataClearContextitem.Text = "Clear";
             this.TransmittedDataClearContextitem.Click += new System.EventHandler(this.TransmittedDataClear_Click);
             // 
@@ -1255,14 +1282,14 @@
             this.TransmittedDataClearOnConnectContextItem.Checked = global::Terminal.Properties.Settings.Default.TransmittedDataClearOnConnectEnabled;
             this.TransmittedDataClearOnConnectContextItem.CheckOnClick = true;
             this.TransmittedDataClearOnConnectContextItem.Name = "TransmittedDataClearOnConnectContextItem";
-            this.TransmittedDataClearOnConnectContextItem.Size = new System.Drawing.Size(195, 26);
+            this.TransmittedDataClearOnConnectContextItem.Size = new System.Drawing.Size(189, 24);
             this.TransmittedDataClearOnConnectContextItem.Text = "Clear on connect";
             this.TransmittedDataClearOnConnectContextItem.CheckedChanged += new System.EventHandler(this.TransmittedDataClearOnConnectChanged);
             // 
             // fontToolStripMenuItem
             // 
             this.fontToolStripMenuItem.Name = "fontToolStripMenuItem";
-            this.fontToolStripMenuItem.Size = new System.Drawing.Size(195, 26);
+            this.fontToolStripMenuItem.Size = new System.Drawing.Size(189, 24);
             this.fontToolStripMenuItem.Text = "Font";
             this.fontToolStripMenuItem.Click += new System.EventHandler(this.SystemFont_Click);
             // 
@@ -1271,7 +1298,7 @@
             this.TransmittedDataTimestampContextItem.Checked = global::Terminal.Properties.Settings.Default.TransmittedDataTimestampEnabled;
             this.TransmittedDataTimestampContextItem.CheckOnClick = true;
             this.TransmittedDataTimestampContextItem.Name = "TransmittedDataTimestampContextItem";
-            this.TransmittedDataTimestampContextItem.Size = new System.Drawing.Size(195, 26);
+            this.TransmittedDataTimestampContextItem.Size = new System.Drawing.Size(189, 24);
             this.TransmittedDataTimestampContextItem.Text = "Timestamp";
             this.TransmittedDataTimestampContextItem.CheckedChanged += new System.EventHandler(this.TransmittedDataTimestampChanged);
             // 
@@ -1304,11 +1331,12 @@
             this.MaximizeBox = false;
             this.Name = "SerialTerminal";
             this.ShowIcon = false;
-            this.Text = "Serial Terminal V1.0.1";
+            this.Text = "Serial Terminal V1.0.2";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SerialTerminal_FormClosing);
             this.Load += new System.EventHandler(this.SerialTerminal_FormLoad);
             this.ComPortGroup.ResumeLayout(false);
             this.BaudGroup.ResumeLayout(false);
+            this.BaudGroup.PerformLayout();
             this.DataBitsGroup.ResumeLayout(false);
             this.ParityGroup.ResumeLayout(false);
             this.StopBitsGroup.ResumeLayout(false);
@@ -1430,6 +1458,8 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.ToolStripMenuItem fontToolStripMenuItem;
         private System.Windows.Forms.TextBox TerminalNotes;
+        private System.Windows.Forms.RadioButton BaudrateCustomRadio;
+        private System.Windows.Forms.TextBox BaudrateCustomTextbox;
 
     }
 }

@@ -418,5 +418,29 @@ namespace Terminal.Properties {
                 this["TransmitData4Text"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool BaudrateCustomChecked {
+            get {
+                return ((bool)(this["BaudrateCustomChecked"]));
+            }
+            set {
+                this["BaudrateCustomChecked"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("115200")]
+        public string BaudrateCustom {
+            get {
+                return ((string)(this["BaudrateCustom"]));
+            }
+            set {
+                this["BaudrateCustom"] = value;
+            }
+        }
     }
 }

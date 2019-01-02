@@ -16,9 +16,11 @@ namespace Terminal
 {
     public partial class SerialTerminal : Form
     {
-        // V1.0.1
+        // V1.0.2
 
         private bool SerialPortConnected                    = false;
+        private bool BaudrateCustomChecked                  = false;
+        private Int32 BaudrateCustom                        = 115200;
 
         // Settings ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Received data //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -89,6 +91,10 @@ namespace Terminal
                 TransmitData3ClearOnSendEnabled         = Settings.Default.TransmitData3ClearOnSendEnabled;
                 TransmitData4ClearOnSendEnabled         = Settings.Default.TransmitData4ClearOnSendEnabled;
                 TransmitDataMultiLineClearOnSendEnabled = Settings.Default.TransmitDataMultiLineClearOnSendEnabled;
+                BaudrateCustomChecked                   = Settings.Default.BaudrateCustomChecked;
+                BaudrateCustom                          = Convert.ToInt32(Settings.Default.BaudrateCustom);
+               
+                BaudrateCustomTextbox.Text = Convert.ToString(BaudrateCustom);
 
                 // Set all radiobuttons to their stored values and set the baudrate, data bits, parity,
                 // and handshake to the value they were when te application was closed.
@@ -96,7 +102,15 @@ namespace Terminal
                 TransmitTerminationChanged((object)CheckedRadio, new EventArgs());
                 
                 CheckedRadio = RestoreRadiobuttonSettings(BaudGroup, Settings.Default.Baudrate);
-                SerialDataPort.BaudRate = Convert.ToInt32(CheckedRadio.Tag);
+                if (CheckedRadio.Text == "Custom")
+                {
+                    SerialDataPort.BaudRate = BaudrateCustom;
+                }
+
+                else
+                {
+                    SerialDataPort.BaudRate = Convert.ToInt32(CheckedRadio.Tag);
+                }
 
                 CheckedRadio = RestoreRadiobuttonSettings(DataBitsGroup, Settings.Default.DataBits);
                 SerialDataPort.DataBits = Convert.ToInt32(CheckedRadio.Tag);
@@ -155,6 +169,8 @@ namespace Terminal
                 Settings.Default.TransmitData3ClearOnSendEnabled        = TransmitData3ClearOnSendEnabled;
                 Settings.Default.TransmitData4ClearOnSendEnabled        = TransmitData4ClearOnSendEnabled;
                 Settings.Default.TransmitDataMultiLineClearOnSendEnabled = TransmitDataMultiLineClearOnSendEnabled;
+                Settings.Default.BaudrateCustomChecked                  = BaudrateCustomChecked;
+                Settings.Default.BaudrateCustom                         = Convert.ToString(BaudrateCustom);
 
                 // Save which radiobuttons are checked.
                 SaveRadiobuttonSettings(BaudGroup, "Baudrate");
@@ -252,6 +268,12 @@ namespace Terminal
                         break;
 
                     case false:
+                        if(BaudrateCustomChecked == true)
+                        {
+                            // Update the baudrate of the serial connection with the selected value.
+                            SerialDataPort.BaudRate = Convert.ToInt32(BaudrateCustomTextbox.Text);
+                        }
+
                         // Select the correct COM port.
                         SerialDataPort.PortName = ComPortDropDown.Text;
 
@@ -331,14 +353,56 @@ namespace Terminal
                 // Yes, update the baudrate with the selected baudrate.
                 if(changedRadio.Checked == true)
                 {
-                    // Update the baudrate of the serial connection with the selected value.
-                    SerialDataPort.BaudRate = Convert.ToInt32(changedRadio.Text);
+                    // Only change the baudrate if the radiobutton is not the custom one.
+                    if (String.Compare(changedRadio.Text, "Custom") == 0)
+                    {
+                        BaudrateCustomChecked = true;
+                    }
+
+                    else
+                    {
+                        // Update the baudrate of the serial connection with the selected value.
+                        SerialDataPort.BaudRate = Convert.ToInt32(changedRadio.Text);
+
+                        BaudrateCustomChecked = false;
+                    }
                 }
             }
 
             catch (Exception exc)
             {
                 MessageBox.Show("There was an error updating the baudrate:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
+            }
+        }
+
+        private void BaudrateCustomTextboxKeyPress(object sender, KeyPressEventArgs e)
+        {
+            try
+            {
+                // Check if the pressed key is numeric but allow backspaces.
+                if(e.KeyChar != '\b')
+                {
+                    e.Handled = !char.IsNumber(e.KeyChar);
+                }
+            }
+
+            catch (Exception exc)
+            {
+                MessageBox.Show("There was an error updating the custom baudrate:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
+            }
+        }
+
+        private void BaudrateCustomTextboxChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                // Update the custom baudrate.
+                BaudrateCustom = Convert.ToInt32(BaudrateCustomTextbox.Text);
+            }
+
+            catch (Exception exc)
+            {
+                MessageBox.Show("There was an error updating the custom baudrate:\n\n" + exc.Message + "\n\n" + exc.StackTrace);
             }
         }
 
@@ -1453,21 +1517,27 @@ namespace Terminal
 
             // Loop through all radiobuttons within the group. Check the one whose text matches
             // with the text from the setting. Uncheck all other ones.
-            foreach (RadioButton Radio in RadiobuttonGroup.Controls)
+            foreach (Control control in RadiobuttonGroup.Controls)
             {
-                // Is this the readio button that was checked at the time the user closed the application?
-                // Yes, check it again.
-                if (Radio.Text == StringSetting)
+                // Make sure to only loop through the radiobuttons.
+                if (control is RadioButton)
                 {
-                    Radio.Checked = true;
+                    RadioButton Radio = (RadioButton)control;
 
-                    CheckedRadio = Radio;
-                }
+                    // Is this the readio button that was checked at the time the user closed the application?
+                    // Yes, check it again.
+                    if (Radio.Text == StringSetting)
+                    {
+                        Radio.Checked = true;
 
-                // No, uncheck it.
-                else
-                {
-                    Radio.Checked = false;
+                        CheckedRadio = Radio;
+                    }
+
+                    // No, uncheck it.
+                    else
+                    {
+                        Radio.Checked = false;
+                    }
                 }
             }
 
@@ -1478,17 +1548,23 @@ namespace Terminal
         {
             // Loop through all radiobuttons in the group until the checked one is found. Then,
             // save it's text in the settings.
-            foreach (RadioButton Radio in RadiobuttonGroup.Controls)
+            foreach (Control control in RadiobuttonGroup.Controls)
             {
-                // Is this radiobutton checked?
-                // Yes, update the setting.
-                if (Radio.Checked == true)
+                // Make sure to only loop through the radiobuttons.
+                if (control is RadioButton)
                 {
-                    // Is the settings string valid?
+                    RadioButton Radio = (RadioButton)control;
+
+                    // Is this radiobutton checked?
                     // Yes, update the setting.
-                    if (String.IsNullOrEmpty(StringSettingName) == false)
+                    if (Radio.Checked == true)
                     {
-                        Settings.Default[StringSettingName] = Radio.Text;
+                        // Is the settings string valid?
+                        // Yes, update the setting.
+                        if (String.IsNullOrEmpty(StringSettingName) == false)
+                        {
+                            Settings.Default[StringSettingName] = Radio.Text;
+                        }
                     }
                 }
             }
